@@ -1,1 +1,1 @@
-angular.module('Blue',['ngRoute']);
+angular.module('Blue',['ngRoute','ngTable']);

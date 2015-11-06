@@ -8,161 +8,39 @@
           <h1 id="tables">Użytkownicy</h1>
         </div>
         <div class="bs-example">
-          <table class="table table-striped table-bordered table-hover">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nazwa użytkownika</th>
-                <th>E-mail</th>
-                <th>Rola</th>
-                <th>Akcja</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>travis</td>
-                <td>travis@provider.com</td>
-                <td>Admin</td>
-                <td>
-                   <div class="btn-group">
-                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">  <span class="caret"></span> </button>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Usuń</a></li>                        
-                        <li class="dropdown-header">Role</li>
-                        <li><a href="#">Przypisz role admin</a></li>
-                        <li><a href="#">Przypisz role adnotator</a></li>
-                        <li><a href="#">Przypisz role ekspert</a></li>
-                        <li><a href="#">Przypisz role gość</a></li>
-                      </ul>
+          <div class="brn-group pull-right">
+            <button class="btn btn-default" ng-if="usersIndexCtrl.isEditing" ng-click="usersIndexCtrl.cancelChanges()">
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+            <button class="btn btn-primary" ng-if="!usersIndexCtrl.isEditing" ng-click="usersIndexCtrl.isEditing = true">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+            <button class="btn btn-primary" ng-if="usersIndexCtrl.isEditing" ng-disabled="!usersIndexCtrl.hasChanges() || usersIndexCtrl.tableTracker.$invalid" ng-click="usersIndexCtrl.saveChanges()">
+              <span class="glyphicon glyphicon-ok"></span>
+            </button>
+            <button class="btn btn-default" ng-click="usersIndexCtrl.add()">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+          </div>
+          <table  ng-table="usersIndexCtrl.tableParams" class="table table-striped table-bordered table-hover" ng-form="usersIndexCtrl.tableForm"  demo-tracked-table="usersIndexCtrl.tableTracker">
+              <tr ng-repeat="user in $data" ng-form="rowForm">
+                <td title="'ID'"  sortable="'idUser'">{{user.idUser}}</td>
+                <td title="'Nazwa użytkownika'" filter="{username: 'text'}"  ng-switch="usersIndexCtrl.isEditing"  sortable="'username'" ng-form="username">
+                  <span ng-switch-default class="editable-text">{{user.username}}</span>
+                  <div class="controls" ng-class="username.$invalid && username.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                    <input type="text" name="username" ng-model="user.username" class="editable-input form-control input-sm" required />
                   </div>
                 </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>joseejones</td>
-                <td>joseejones@provider.com</td>
-                <td>Gość</td>
+                <td title="'E-mail'" filter="{email: 'text'}" sortable="'email'">{{user.email}}</td>
+                <td title="'Rola'" filter="{roleNames: 'text'}" sortable="'roleNames'">{{user.roleNames[0]}}</td>
                 <td>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">  <span class="caret"></span> </button>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Usuń</a></li>                        
-                        <li class="dropdown-header">Role</li>
-                        <li><a href="#">Przypisz role admin</a></li>
-                        <li><a href="#">Przypisz role adnotator</a></li>
-                        <li><a href="#">Przypisz role ekspert</a></li>
-                        <li><a href="#">Przypisz role gość</a></li>
-                      </ul>
-                    </div>
+                  <button class="btn btn-danger btn-sm" ng-click="usersIndexCtrl.del(user)" ng-disabled="!usersIndexCtrl.isEditing">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
                 </td>
               </tr>
-              <tr>
-                <td>3</td>
-                <td>georgefgreen</td>
-                <td>georgefgreen@provider.com</td>
-                <td>Adnotator</td>
-                <td>
-                   <div class="btn-group">
-                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">  <span class="caret"></span> </button>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Usuń</a></li>                        
-                        <li class="dropdown-header">Role</li>
-                        <li><a href="#">Przypisz role admin</a></li>
-                        <li><a href="#">Przypisz role adnotator</a></li>
-                        <li><a href="#">Przypisz role ekspert</a></li>
-                        <li><a href="#">Przypisz role gość</a></li>
-                      </ul>
-                    </div>
-                </td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>samueliheim</td>
-                <td>samueliheim@provider.com</td>
-                <td>Ekspert</td>
-                <td> 
-                  <div class="btn-group">
-                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">  <span class="caret"></span> </button>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Usuń</a></li>                        
-                        <li class="dropdown-header">Role</li>
-                        <li><a href="#">Przypisz role admin</a></li>
-                        <li><a href="#">Przypisz role adnotator</a></li>
-                        <li><a href="#">Przypisz role ekspert</a></li>
-                        <li><a href="#">Przypisz role gość</a></li>
-                      </ul>
-                  </div>
-                </td>
-              </tr>
-              <tr >
-                <td>5</td>
-                <td>dennisbkim</td>
-                <td>dennisbkim@provider.com</td>
-                <td>Gość</td>
-                <td>
-                   <div class="btn-group">
-                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">  <span class="caret"></span> </button>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Usuń</a></li>                        
-                        <li class="dropdown-header">Role</li>
-                        <li><a href="#">Przypisz role admin</a></li>
-                        <li><a href="#">Przypisz role adnotator</a></li>
-                        <li><a href="#">Przypisz role ekspert</a></li>
-                        <li><a href="#">Przypisz role gość</a></li>
-                      </ul>
-                  </div>
-                </td>
-              </tr>
-              <tr >
-                <td>6</td>
-                <td>samueliheim</td>
-                <td>samueliheim@provider.com</td>
-                <td>Gość</td>
-                <td>
-                   <div class="btn-group">
-                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">  <span class="caret"></span> </button>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Usuń</a></li>                        
-                        <li class="dropdown-header">Role</li>
-                        <li><a href="#">Przypisz role admin</a></li>
-                        <li><a href="#">Przypisz role adnotator</a></li>
-                        <li><a href="#">Przypisz role ekspert</a></li>
-                        <li><a href="#">Przypisz role gość</a></li>
-                      </ul>
-                  </div>
-                </td>
-              </tr>
-              <tr >
-                <td>7</td>
-                <td>jonidsoto</td>
-                <td>jonidsoto@provider.com</td>
-                <td>Ekspert</td>
-                <td>
-                   <div class="btn-group">
-                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">  <span class="caret"></span> </button>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Usuń</a></li>                        
-                        <li class="dropdown-header">Role</li>
-                        <li><a href="#">Przypisz role admin</a></li>
-                        <li><a href="#">Przypisz role adnotator</a></li>
-                        <li><a href="#">Przypisz role ekspert</a></li>
-                        <li><a href="#">Przypisz role gość</a></li>
-                      </ul>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
           </table>
-          <ul class="pagination">
-            <li class="disabled"><a href="#">&laquo;</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&raquo;</a></li>
-          </ul>
+         
        <div class="bs-docs-section">
         </div>
         <!-- /example --> 
@@ -174,24 +52,6 @@
 
  </div> 
   
-  <div class="note-wrapper">
-    <div class="note-content">
-      <div class="notes-header">
-        <h1 title="Notes">Notes</h1>
-      </div>
-
-      <div class="note-wrapper">
-        <a class="card-notes" ng-repeat="user in usersIndexCtrl.users">
-
-          <div class="card" title="{{user.username}}">
-            <h2 class="h3">{{user.email}}</h2>
-            
-          </div>
-
-        </a>
-      </div>
-
-    </div>
-  </div>
+ 
   
 </div> 
