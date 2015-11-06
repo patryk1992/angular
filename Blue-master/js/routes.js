@@ -8,8 +8,12 @@ $routeProvider.when('/',{
         })
 		.when('/login',{
         templateUrl: 'templates/pages/login/login.html',
+        controller:'LoginIndexController',
+        controllerAs:'loginIndexControllerCtrl'
         })
 		.when('/users',{
         templateUrl: 'templates/pages/users/index.html',
+        controller:'UsersIndexController',
+        controllerAs:'usersIndexCtrl'
         });
 });
