@@ -20,6 +20,7 @@ angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTa
 		});
 
 	controller.deleteCount = 0;
+	controller.deletedUsers = [];
     controller.add = add;
     controller.cancelChanges = cancelChanges;
     controller.del = del;
@@ -54,9 +55,14 @@ angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTa
     }
 
     function del(row) {
-      _.remove(controller.tableParams.settings().dataset, function(item) {
+     /* _.remove(controller.tableParams.settings().dataset, function(item) {
         return row === item;
-      });
+      });*/
+      var index = controller.users.indexOf(row);
+      if (index > -1) {
+    		var user=controller.users.splice(index, 1);
+    		controller.deletedUsers.push(user);
+	  }
       controller.deleteCount++;
       controller.tableTracker.untrack(row);
       controller.tableParams.reload().then(function(data) {
@@ -65,6 +71,9 @@ angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTa
           controller.tableParams.reload();
         }
       });
+      
+	  controller.tableParams.reload()
+
     }
 
     function hasChanges() {
@@ -83,6 +92,16 @@ angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTa
       resetTableStatus();
       var currentPage = controller.tableParams.page();
       originalData = angular.copy(controller.tableParams.settings().dataset);
+  $http({method: 'DELETE', 
+		url: '/dataprocessing/rest-api/users/3',		 	
+		headers: {
+			'Authorization': 'Basic '+Base64.encode('admin:admin'),
+			'Content-Type': 'application/json'		
+		}
+		}).success(function(data){
+			var tmp=data;
+			
+		});
     }
   }
 ]);

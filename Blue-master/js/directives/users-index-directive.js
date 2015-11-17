@@ -99,12 +99,12 @@
     }
 
     function untrack(row) {
-      _.remove(invalidCellsByRow, function(item) {
+      /*_.remove(invalidCellsByRow, function(item) {
         return item.row === row;
       });
       _.remove(dirtyCellsByRow, function(item) {
         return item.row === row;
-      });
+      });*/
       setInvalid(invalidCellsByRow.length > 0);
     }
   }
