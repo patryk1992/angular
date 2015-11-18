@@ -1,7 +1,7 @@
              
 angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTableParams", function($http,Base64,ngTableParams){
 	var controller=this;
-	
+	var originalData;
 	 // $http.defaults.headers.common['Authorization'] = 'Basic YWRtaW46YWRtaW4=';
 	// $http.defaults.withCredentials = true;
 	$http({method: 'GET', 
@@ -14,6 +14,7 @@ angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTa
 		}
 		}).success(function(data){
 			controller.users=data._embedded.users;
+			originalData = angular.copy(controller.users);
 			controller.tableParams = new ngTableParams(
 				{count:10}, 
 				{dataset: controller.users});
@@ -61,7 +62,7 @@ angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTa
       var index = controller.users.indexOf(row);
       if (index > -1) {
     		var user=controller.users.splice(index, 1);
-    		controller.deletedUsers.push(user);
+    		controller.deletedUsers.push(user[0]);
 	  }
       controller.deleteCount++;
       controller.tableTracker.untrack(row);
@@ -91,17 +92,46 @@ angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTa
     function saveChanges() {
       resetTableStatus();
       var currentPage = controller.tableParams.page();
-      originalData = angular.copy(controller.tableParams.settings().dataset);
-  $http({method: 'DELETE', 
-		url: '/dataprocessing/rest-api/users/3',		 	
-		headers: {
-			'Authorization': 'Basic '+Base64.encode('admin:admin'),
-			'Content-Type': 'application/json'		
+      //zmiania użytkownika
+      var changedUsers=[];
+      var tableDataset=controller.tableParams.settings().dataset;
+      for( keyS in tableDataset){
+      	for( keyO in originalData){
+      		if(tableDataset[keyS].idUser==originalData[keyO].idUser){
+      			if(tableDataset[keyS].username!=originalData[keyO].username || tableDataset[keyS].email!=originalData[keyO].email || tableDataset[keyS].roleNames[0]!=originalData[keyO].roleNames[0] ){
+      				changedUsers.push(tableDataset[keyS]);
+      			}
+      		}
+      	}
+      }
+      for( key in changedUsers){
+	  		$http({method: 'PUT', 
+			url: '/dataprocessing/rest-api/users/' + changedUsers[key].idUser,
+			data: changedUsers[key],		 	
+			headers: {
+				'Authorization': 'Basic '+Base64.encode('admin:admin'),
+				'Content-Type': 'application/json'		
+			}
+			}).success(function(data){
+				var tmp=data;
+				
+			});
 		}
-		}).success(function(data){
-			var tmp=data;
-			
-		});
+      originalData = angular.copy(controller.tableParams.settings().dataset);
+
+      // usuniecie użytkowników
+      for( key in controller.deletedUsers){
+	  		$http({method: 'DELETE', 
+			url: '/dataprocessing/rest-api/users/'+controller.deletedUsers[key].idUser,		 	
+			headers: {
+				'Authorization': 'Basic '+Base64.encode('admin:admin'),
+				'Content-Type': 'application/json'		
+			}
+			}).success(function(data){
+				var tmp=data;
+				
+			});
+		}
     }
   }
 ]);

@@ -31,8 +31,22 @@
                     <input type="text" name="username" ng-model="user.username" class="editable-input form-control input-sm" required />
                   </div>
                 </td>
-                <td title="'E-mail'" filter="{email: 'text'}" sortable="'email'">{{user.email}}</td>
-                <td title="'Rola'" filter="{roleNames: 'text'}" sortable="'roleNames'">{{user.roleNames[0]}}</td>
+                <td title="'E-mail'" filter="{email: 'text'}" ng-switch="usersIndexCtrl.isEditing" sortable="'email'" ng-form="email">
+                  <span ng-switch-default class="editable-text">{{user.email}}</span>
+                  <div class="controls" ng-class="email.$invalid && email.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                    <input type="text" name="email" ng-model="user.email" class="editable-input form-control input-sm" required />
+                  </div>
+                </td>
+                <td title="'Rola'" filter="{roleNames: 'text'}" ng-switch="usersIndexCtrl.isEditing" sortable="'roleNames'" ng-form="roleNames">
+                  <span ng-switch-default class="editable-text">{{user.roleNames[0]}}</span>
+                  <div class="controls" ng-class="roleNames.$invalid && roleNames.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                   <select name="singleSelect" ng-model="user.roleNames[0]">
+                      <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+                      <option value="ROLE_EXPERT">ROLE_EXPERT</option>
+                      <option value="ROLE_ANNOTATOR">ROLE_ANNOTATOR</option>                     
+                    </select>
+                  </div>
+                </td>
                 <td>
                   <button class="btn btn-danger btn-sm" ng-click="usersIndexCtrl.del(user)" ng-disabled="!usersIndexCtrl.isEditing">
                     <span class="glyphicon glyphicon-trash"></span>
