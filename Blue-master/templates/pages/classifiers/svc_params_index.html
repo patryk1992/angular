@@ -1,0 +1,146 @@
+<div class="container">
+  <div class="bs-docs-section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-header">
+          <h1 id="forms">SVC algorithm parameters</h1>
+        </div>
+      </div>
+    </div>
+	</p>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="well">
+          <form class="bs-example form-horizontal">
+            <fieldset>
+              <div class="form-group">
+                <label for="inputParamC" class="col-lg-2 control-label">C</label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" id="inputParamC" value="1.0">
+				  <span class="help-block">(float) Penalty parameter C of the error term.</span>
+                </div>
+              </div>
+			  <div class="form-group">
+                <label for="selectParamKernel" class="col-lg-2 control-label">kernel</label>
+                <div class="col-lg-10">
+                  <select class="form-control" id="selectParamKernel" >                    
+                    <option>linear</option>
+                    <option>poly</option>
+					<option selected="selected">rbf</option>
+                    <option>sigmoid</option>
+                    <option>precomputed</option>
+                  </select>
+				  <span class="help-block">(string) Specifies the kernel type to be used in the algorithm.</span>
+                </div>
+              </div>
+			  <div class="form-group">
+                <label for="inputParamDegree" class="col-lg-2 control-label">degree</label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" id="inputParamDegree" value="3">
+				  <span class="help-block">(int) Degree of the polynomial kernel function (&#39;poly&#39;). Ignored by all other kernels.</span>
+                </div>
+              </div>
+			  <div class="form-group">
+                <label for="inputParamGamma" class="col-lg-2 control-label">gamma</label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" id="inputParamGamma" value="auto">
+				  <span class="help-block">(float) Kernel coefficient for &#39;rbf&#39;, &#39;poly&#39; and &#39;sigmoid&#39;. If gamma is &#39;auto&#39; then 1/n_features will be used instead.</span>
+                </div>
+              </div>
+			  <div class="form-group">
+                <label for="inputParamCoef0" class="col-lg-2 control-label">coef0</label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" id="inputParamCoef0" value="0.0">
+				  <span class="help-block">(float) Independent term in kernel function. It is only significant in &#39;poly&#39; and &#39;sigmoid&#39;.</span>
+                </div>
+              </div>
+			  <div class="form-group">
+                <label for="inputParamProbability" class="col-lg-2 control-label">probability</label>
+                <div class="col-lg-10">
+                  <input type="checkbox" id="inputParamProbability"> Enable probability estimates.
+				  <span class="help-block">(boolean) This must be enabled prior to calling fit, and will slow down that method.</span>
+                </div>
+              </div>
+			   <div class="form-group">
+                <label for="inputParamShrinking" class="col-lg-2 control-label">shrinking</label>
+                <div class="col-lg-10">
+                  <input type="checkbox" id="inputParamShrinking" checked> Use the shrinking heuristic.
+				  <span class="help-block">(boolean) </span>
+                </div>
+              </div>
+			  <div class="form-group">
+                <label for="inputParamTol" class="col-lg-2 control-label">tol</label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" id="inputParamTol" value="1e-3">
+				  <span class="help-block">(float) Tolerance for stopping criterion.</span>
+                </div>
+              </div>
+			   <div class="form-group">
+                <label for="inputParamCacheSize" class="col-lg-2 control-label">cache_size</label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" id="inputParamCacheSize" value="">
+				  <span class="help-block">(float) Specify the size of the kernel cache (in MB).</span>
+                </div>
+              </div>
+			  <div class="form-group">
+                <label for="inputParamClassWeight " class="col-lg-2 control-label">class_weight </label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" id="inputParamClassWeight" value="balanced">
+				  <span class="help-block">(dict, &#39;balanced&#39;) Set the parameter C of class i to class_weight[i]*C for SVC. If not given, all classes are supposed to have weight one. The &#39;balanced&#39; mode uses the values of y to automatically adjust weights inversely proportional to class frequencies in the input data as n_samples / (n_classes * np.bincount(y)).</span>
+                </div>
+              </div>
+			  <div class="form-group">
+                <label for="inputParamVerbose " class="col-lg-2 control-label">verbose </label>
+                <div class="col-lg-10">
+                  <input type="checkbox" id="inputParamVerbose" checked> Enable verbose output.
+				  <span class="help-block">(boolean) Note that this setting takes advantage of a per-process runtime setting in libsvm that, if enabled, may not work properly in a multithreaded context.</span>
+                </div>
+              </div>
+			  <div class="form-group">
+			  <label for="inputParamMaxIter" class="col-lg-2 control-label">max_iter</label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" id="inputParamMaxIter" value="-1">
+				  <span class="help-block">(int) Hard limit on iterations within solver, or -1 for no limit.</span>
+                </div>
+              </div>
+			  <div class="form-group">
+                <label for="selectParamDecisionFunctionShape" class="col-lg-2 control-label">decision_function_shape</label>
+                <div class="col-lg-10">
+                  <select class="form-control" id="selectParamDecisionFunctionShape" >                    
+                    <option selected="selected">ovo</option>
+                    <option>ovr</option>
+					<option>None</option>
+                  </select>
+				  <span class="help-block">(string) Whether to return a one-vs-rest (&#39;ovr&#39;) decision function of shape (n_samples, n_classes) as all other classifiers, or the original one-vs-one (&#39;ovo&#39;) decision function of libsvm which has shape (n_samples, n_classes * (n_classes - 1) / 2). The default of None will currently behave as &#39;ovo&#39; for backward compatibility and raise a deprecation warning, but will change &#39;ovr&#39; in 0.18.<br>New in version 0.17: decision_function_shape=&#39;ovr&#39; is recommended.<br>Changed in version 0.17: Deprecated decision_function_shape=&#39;ovo&#39; and None.</span>
+                </div>
+              </div>
+			  <div class="form-group">
+			  <label for="inputParamRandomState" class="col-lg-2 control-label">random_state</label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" id="inputParamRandomState" value="None">
+				  <span class="help-block">(int) The seed of the pseudo random number generator to use when shuffling the data for probability estimation.</span>
+                </div>
+              </div>
+			  <div class="form-group" >			  
+			  <label for="selectLearningCurveAlgorithm" class="col-lg-2 control-label">LearningCurveAlgorithm</label>
+			  <div class="col-lg-10">
+						<select id="selectLearningCurveAlgorithm"  ng-model="data.repeatSelect">
+							<option value="" selected="selected">-None-</option>
+							<option ng-repeat="option in data.algorithms" value="{{option.id}}">{{option.name}} - {{option.description}}</option>		
+						</select>						
+				</div>
+			  </div>
+            </fieldset>
+          </form>
+		  
+        </div>
+      </div>
+	  <br>			
+			<br>					
+			<button type="button" class="btn btn-default">Cofnij</button>
+			<button type="button" class="btn btn-primary">Dalej</button>
+    </div>
+  </div>
+  
+  
+</div>

@@ -1,0 +1,39 @@
+
+<div class="container">
+   <div class="bs-docs-section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-header">
+          <h2 id="forms">Add new classifier</h2>
+        </div>
+      </div>
+    </div>
+	</p>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="well">
+          <form class="bs-example form-horizontal">
+            <fieldset>
+				<div class="form-group" >
+					<div ng-controller="ClassifierController" >
+						<ul ng-repeat="option in data.algorithms">
+								<input type="radio" ng-model="data.repeatSelect" name="name" value="{{option.id}}"/>
+								<label>{{option.name}}</label>							
+								<p >&emsp; {{option.description}}</p>
+								<p >&emsp; {{option.note}}</p>
+								</p>
+						</ul>
+				</div>
+			</fieldset>
+          </form>
+        </div>
+      </div>
+	  <br>			
+			<br>					
+			<button type="button" class="btn btn-default">Cofnij</button>
+			<button type="button" class="btn btn-primary">Dalej</button>
+    </div>
+  </div>
+  
+  
+</div>
