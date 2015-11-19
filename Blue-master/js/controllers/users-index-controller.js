@@ -21,7 +21,7 @@ angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTa
 		});
 
 	controller.deleteCount = 0;
-	controller.deletedUsers = [];
+	controller.deletedUsers = [];	
     controller.add = add;
     controller.cancelChanges = cancelChanges;
     controller.del = del;
@@ -32,9 +32,9 @@ angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTa
 	    controller.isEditing = true;
 	    controller.isAdding = true;
 	    controller.tableParams.settings().dataset.unshift({
-	        name: "",
-	        age: null,
-	        money: null
+	        username: "",
+	        email: null
+	       
 	    });
 	      // we need to ensure the user sees the new row we've just added.
 	      // it seems a poor but reliable choice to remove sorting and move them to the first page
@@ -104,6 +104,29 @@ angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTa
       		}
       	}
       }
+      var addedUsers=[];
+      for( key in tableDataset){
+      	if(tableDataset[key].idUser==null){
+      		var newUser={};
+      		newUser.username=tableDataset[key].username;
+      		newUser.password=tableDataset[key].username; //zakłądamy ze jak admin tworzy konto to password==username
+      		//newUser.role=tableDataset[key].role;
+      		addedUsers.push(newUser);
+      	}
+      }
+       for( key in addedUsers){
+	  		$http({method: 'POST', 
+			url: '/dataprocessing/register',
+			data: addedUsers[key],		 	
+			headers: {
+				'Authorization': 'Basic '+Base64.encode('admin:admin'),
+				'Content-Type': 'application/json'		
+			}
+			}).success(function(data){
+				var tmp=data;
+				
+			});
+		}
       for( key in changedUsers){
 	  		$http({method: 'PUT', 
 			url: '/dataprocessing/rest-api/users/' + changedUsers[key].idUser,
