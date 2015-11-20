@@ -3,19 +3,19 @@
       <form class="form-signin">
         <h2 class="form-signin-heading">Utwórz konto</h2>
         <label for="inputLogin" class="sr-only">Nazwa użytkownika</label>
-        <input id="inputLogin" class="form-control" placeholder="Nazwa użytkownika" required autofocus>
+        <input ng-model="registerIndexCtrl.inputLogin" id="inputLogin" class="form-control" placeholder="Nazwa użytkownika" required autofocus>
         <label for="inputEmail" class="sr-only">Email</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+        <input ng-model="registerIndexCtrl.inputEmail" type="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
         <label for="inputPassword" class="sr-only">Hasło</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Hasło" required>
+        <input ng-model="registerIndexCtrl.inputPassword" type="password" id="inputPassword" class="form-control" placeholder="Hasło" required>
         <label for="inputPasswordConfirm" class="sr-only">Potwierdź hasło</label>
-        <input type="password" id="inputPasswordConfirm" class="form-control" placeholder="Potwierdź hasło" required>
+        <input ng-model="registerIndexCtrl.inputPasswordConfirm" type="password" id="inputPasswordConfirm" class="form-control" placeholder="Potwierdź hasło" required>
         <div class="checkbox">
           <label>
             <!-- <input type="checkbox" value="remember-me"> Remember me -->
           </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Utwórz konto</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="registerIndexCtrl.register()">Utwórz konto</button>
       </form>
 
     </div> <!-- /container -->

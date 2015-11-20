@@ -123,8 +123,11 @@ angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTa
 				'Content-Type': 'application/json'		
 			}
 			}).success(function(data){
-				var tmp=data;
-				
+				for( key in tableDataset){
+			      	if(tableDataset[key].username==data.username ){
+			      		tableDataset[key].idUser=data.idUser;
+			      	}
+			    }
 			});
 		}
       for( key in changedUsers){
@@ -135,8 +138,7 @@ angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTa
 				'Authorization': 'Basic '+Base64.encode('admin:admin'),
 				'Content-Type': 'application/json'		
 			}
-			}).success(function(data){
-				var tmp=data;
+			}).success(function(data){				
 				
 			});
 		}

@@ -5,11 +5,13 @@ $routeProvider.when('/',{
         })
 		.when('/register',{
         templateUrl: 'templates/pages/register/register.html',
+        controller:'RegisterIndexController',
+        controllerAs:'registerIndexCtrl'
         })
 		.when('/login',{
         templateUrl: 'templates/pages/login/login.html',
         controller:'LoginIndexController',
-        controllerAs:'loginIndexControllerCtrl'
+        controllerAs:'loginIndexCtrl'
         })
 		.when('/users',{
         templateUrl: 'templates/pages/users/index.html',
