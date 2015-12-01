@@ -1,14 +1,14 @@
              
-angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTableParams", function($http,Base64,ngTableParams){
+angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTableParams","$cookieStore", function($http,Base64,ngTableParams,$cookieStore){
 	var controller=this;
 	var originalData;
+	var globals= $cookieStore.get('globals');
 	 // $http.defaults.headers.common['Authorization'] = 'Basic YWRtaW46YWRtaW4=';
 	// $http.defaults.withCredentials = true;
 	$http({method: 'GET', 
 		url: '/dataprocessing/rest-api/users', 	
 		headers: {
-			'Authorization': 'Basic '+Base64.encode('admin:admin')			
-			
+			// 'Authorization': 'Basic '+Base64.encode('admin:admin')					
 		
 
 		}
@@ -119,7 +119,7 @@ angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTa
 			url: '/dataprocessing/register',
 			data: addedUsers[key],		 	
 			headers: {
-				'Authorization': 'Basic '+Base64.encode('admin:admin'),
+				// 'Authorization': 'Basic '+Base64.encode('admin:admin'),
 				'Content-Type': 'application/json'		
 			}
 			}).success(function(data){
@@ -135,7 +135,7 @@ angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTa
 			url: '/dataprocessing/rest-api/users/' + changedUsers[key].idUser,
 			data: changedUsers[key],		 	
 			headers: {
-				'Authorization': 'Basic '+Base64.encode('admin:admin'),
+				// 'Authorization': 'Basic '+Base64.encode('admin:admin'),
 				'Content-Type': 'application/json'		
 			}
 			}).success(function(data){				
@@ -149,7 +149,7 @@ angular.module("Blue").controller("UsersIndexController",["$http","Base64","ngTa
 	  		$http({method: 'DELETE', 
 			url: '/dataprocessing/rest-api/users/'+controller.deletedUsers[key].idUser,		 	
 			headers: {
-				'Authorization': 'Basic '+Base64.encode('admin:admin'),
+				// 'Authorization': 'Basic '+Base64.encode('admin:admin'),
 				'Content-Type': 'application/json'		
 			}
 			}).success(function(data){
