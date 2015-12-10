@@ -7,8 +7,9 @@ angular.module("Blue").controller("LoginIndexController",  ['$scope', '$rootScop
   		var controller=this; 
   		controller.login=login;
         function login() {
+        	AuthenticationService.ClearCredentials();
         	var tab="";
-        	controller.username=this.inputLogin;
+        	controller.username=this.inputLogin; 
         	controller.password=this.inputPassword;
         	$http({method: 'GET', 
 				url: '/dataprocessing/rest-api/login', 	
