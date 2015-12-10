@@ -1,0 +1,69 @@
+<div class="container">
+    <div class="bs-docs-section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h1 id="tables">Results</h1>
+                </div>
+                <div class="bs-example">
+                    <div class="brn-group pull-right">
+                        <button class="btn btn-default" ng-if="resultIndexCtrl.isEditing" ng-click="resultIndexCtrl.cancelChanges()">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <button class="btn btn-primary" ng-if="!resultIndexCtrl.isEditing" ng-click="resultIndexCtrl.isEditing = true">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                        <button class="btn btn-primary" ng-if="resultIndexCtrl.isEditing" ng-disabled="!resultIndexCtrl.hasChanges() || resultIndexCtrl.tableTracker.$invalid" ng-click="resultIndexCtrl.saveChanges()">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </button>
+                       
+                    </div>
+                    <table ng-table="resultIndexCtrl.tableParams" class="table table-striped table-bordered table-hover" ng-form="resultIndexCtrl.tableForm" demo-tracked-table="resultIndexCtrl.tableTracker">
+                        <tr ng-repeat="doc in $data" ng-form="rowForm">
+                            <td title="'ID'" filter="{title: 'text'}" ng-switch="resultIndexCtrl.isEditing" sortable="'title'" ng-form="title">
+                                <span >{{doc.title}}</span>
+                                
+                            </td>
+                            <td title="'Document collection'" filter="{content: 'text'}" ng-switch="resultIndexCtrl.isEditing" sortable="'content'" ng-form="content">
+                                <span>{{doc.content}}</span>
+                                
+                            </td>
+                            <td title="'Classyfier'" filter="{content: 'text'}" ng-switch="resultIndexCtrl.isEditing" sortable="'content'" ng-form="content">
+                                <span>{{doc.content}}</span>
+                                
+                            </td>
+                            <td title="'Parameter'" filter="{content: 'text'}" ng-switch="resultIndexCtrl.isEditing" sortable="'content'" ng-form="content">
+                                <span>{{doc.content}}</span>
+                                
+                            </td>
+                            <td title="'Precision'" filter="{content: 'text'}" ng-switch="resultIndexCtrl.isEditing" sortable="'content'" ng-form="content">
+                                <span>{{doc.content}}</span>
+                                
+                            </td>
+                             <td title="'Accuracy'" filter="{content: 'text'}" ng-switch="resultIndexCtrl.isEditing" sortable="'content'" ng-form="content">
+                                <span>{{doc.content}}</span>
+                                
+                            </td>
+                            <td title="'Recall'" filter="{content: 'text'}" ng-switch="resultIndexCtrl.isEditing" sortable="'content'" ng-form="content">
+                                <span>{{doc.content}}</span>
+                                
+                            </td>
+                             <td title="'Learning curve'" filter="{content: 'text'}" ng-switch="resultIndexCtrl.isEditing" sortable="'content'" ng-form="content">
+                                <span>{{doc.content}}</span>
+                                
+                            </td>
+                            <td>
+                                <button class="btn btn-danger btn-sm" ng-click="resultIndexCtrl.del(doc)" ng-disabled="!resultIndexCtrl.isEditing">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="bs-docs-section">
+                    </div>
+                    <!-- /example -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

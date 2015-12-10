@@ -18,6 +18,11 @@ $routeProvider.when('/',{
         controller:'UsersIndexController',
         controllerAs:'usersIndexCtrl'
         })
+                .when('/result',{
+        templateUrl: 'templates/pages/result/index.html',
+        controller:'ResultIndexController',
+        controllerAs:'resultIndexCtrl'
+        })
 		.when('/classifiers',{
         templateUrl: 'templates/pages/classifiers/index.html',
         controller:'ClassifierController',
