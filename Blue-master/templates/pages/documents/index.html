@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="bs-docs-section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h1 id="tables">Document Collections</h1>
+                </div>
+                <div class="bs-example">
+                    <div class="brn-group pull-right">
+                        <button class="btn btn-default" ng-if="documentsIndexCtrl.isEditing" ng-click="documentsIndexCtrl.cancelChanges()">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <button class="btn btn-primary" ng-if="!documentsIndexCtrl.isEditing" ng-click="documentsIndexCtrl.isEditing = true">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                        <button class="btn btn-primary" ng-if="documentsIndexCtrl.isEditing" ng-disabled="!documentsIndexCtrl.hasChanges() || documentsIndexCtrl.tableTracker.$invalid" ng-click="resultIndexCtrl.saveChanges()">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </button>
+                       
+                    </div>
+                    <table ng-table="documentsIndexCtrl.tableParams" class="table table-striped table-bordered table-hover" ng-form="documentsIndexCtrl.tableForm" demo-tracked-table="documentsIndexCtrl.tableTracker">
+                        <tr ng-repeat="result in $data" ng-form="rowForm">
+                            <td title="'ID'" filter="{idDocumentCollection: 'text'}" ng-switch="documentsIndexCtrl.isEditing" sortable="'title'" ng-form="title">
+                                <span >{{result.idDocumentCollection}}</span>                                                                
+                            </td>
+                            <td title="'Document collection'" filter="{name: 'text'}" ng-switch="documentsIndexCtrl.isEditing" sortable="'content'" ng-form="content">
+                                <span>{{result.name}}</span>
+                                
+                            </td>
+                            
+                            <td>
+                                <button class="btn btn-danger btn-sm" ng-click="documentsIndexCtrl.del(result)" ng-disabled="!documentsIndexCtrl.isEditing">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </td>
+                            <td>
+                                <button class="btn btn-default" ng-click="documentsIndexCtrl.docsList(result)">Lista                            
+                                </button>
+                            </td>
+                        </tr>
+                                <ul>
+                                    <li
+                                        ng-repeat="doc in $docsLists"  >
+                                        {{ doc.idDocument }} &mdash; {{ doc.name }}
+                                    </li>
+                                </ul>
+
+                    </table>
+                    <div class="bs-docs-section">
+                    </div>
+                    <!-- /example -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

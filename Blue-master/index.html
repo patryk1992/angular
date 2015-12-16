@@ -30,6 +30,9 @@
 <script src="js/controllers/classifier-controller.js"></script>
 <script src="js/controllers/learning_curve-controller.js"></script>
 <script src="js/controllers/services.js"></script>
+<script src="js/controllers/documents-index-controller.js"></script>
+<script src="js/controllers/addDocument-controller.js"></script>
+<script src="js/controllers/classifierList-index-controller.js"></script>
 <!-- Directives -->
 <script src="js/directives/users-index-directive.js"></script>
 <script src="js/directives/result-index-directive.js"></script>
@@ -79,6 +82,21 @@
         class="list-item"
         ng-click="selected = 'result'"
         ng-class="{'active': selected == 'result'}"> Results </a></li>
+
+        <li class="active"><a href="#/documents"
+        class="list-item"
+        ng-click="selected = 'documents'"
+        ng-class="{'active': selected == 'documents'}"> Collections</a></li>
+
+        <li class="active"><a href="#/classList"
+        class="list-item"
+        ng-click="selected = 'classList'"
+        ng-class="{'active': selected == 'classList'}"> Classifiers List </a></li>
+
+        <li class="active"><a href="#/newDocs"
+        class="list-item"
+        ng-click="selected = 'newDocs'"
+        ng-class="{'active': selected == 'newDocs'}"> Add new docs </a></li>
     
   </div>
     
