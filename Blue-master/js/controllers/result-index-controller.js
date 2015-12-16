@@ -6,14 +6,7 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
     // $http.defaults.withCredentials = true;
     $http({
         method: 'GET',
-        url: '/solr/collection1/select?q=content:' + '*' + '&wt=json',
-        // data: [{
-        //     'id': $scope.title,
-        //     // 'type': 'pdf',
-        //     'title': $scope.title,
-        //     'content': $scope.results,
-        //     'type': 'trst'
-        // }],
+        url: '/dataprocessing/rest-api/resultDocumentCollections',        
         headers: {
             'Content-Type': 'application/json',
             // 'params': {
@@ -22,17 +15,17 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
             // }
         }
     }).success(function(data) {
-        controller.docs = data.response.docs;
-        originalData = angular.copy(controller.docs);
+        controller.results = data.response.results;
+        originalData = angular.copy(controller.results);
         controller.tableParams = new ngTableParams({
             count: 10
         }, {
-            dataset: controller.docs
+            dataset: controller.results
         });
     });
 
     controller.deleteCount = 0;
-    controller.deletedDocs = [];
+    controller.deletedresults = [];
     controller.add = add;
     controller.cancelChanges = cancelChanges;
     controller.del = del;
@@ -71,10 +64,10 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
         /* _.remove(controller.tableParams.settings().dataset, function(item) {
            return row === item;
          });*/
-        var index = controller.docs.indexOf(row);
+        var index = controller.results.indexOf(row);
         if (index > -1) {
-            var doc = controller.docs.splice(index, 1);
-            controller.deletedDocs.push(doc[0]);
+            var doc = controller.results.splice(index, 1);
+            controller.deletedresults.push(doc[0]);
         }
         controller.deleteCount++;
         controller.tableTracker.untrack(row);
@@ -106,10 +99,10 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
         var currentPage = controller.tableParams.page();       
 
         // usuniecie użytkowników
-        for (key in controller.deletedDocs) {
+        for (key in controller.deletedresults) {
             $http({
                 method: 'GET',
-                url: '/solr/collection1/update?stream.body=<delete><query>id:' + controller.deletedDocs[key].id+'</query> </delete>&commit=true',
+                url: '/solr/collection1/update?stream.body=<delete><query>id:' + controller.deletedresults[key].id+'</query> </delete>&commit=true',
                 headers: {
                     // 'Authorization': 'Basic '+Base64.encode('admin:admin'),
                     'Content-Type': 'application/json'
