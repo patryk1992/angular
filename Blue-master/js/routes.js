@@ -28,8 +28,13 @@ $routeProvider.when('/',{
         controller:'ClassifierController',
         controllerAs:'classifierCtrl'
         })
-		.when('/svc_params',{
-        templateUrl: 'templates/pages/classifiers/svc_params_index.html',
+		.when('/svm_params',{
+        templateUrl: 'templates/pages/classifiers/svm_params_index.html',
+        controller:'LearningCurveController',
+        controllerAs:'learningCurveCtrl'
+        })
+		.when('/dTree_params',{
+        templateUrl: 'templates/pages/classifiers/dTree_params_index.html',
         controller:'LearningCurveController',
         controllerAs:'learningCurveCtrl'
         });

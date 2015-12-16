@@ -1,0 +1,124 @@
+<div class="container">
+  <div class="bs-docs-section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-header">
+          <h1 id="forms">DecisionTree algorithm parameters</h1>
+        </div>
+      </div>
+    </div>
+	</p>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="well">
+          <form class="bs-example form-horizontal">
+            <fieldset>
+			  <div class="form-group">
+				<label for="selectCriterion" class="col-lg-2 control-label">criterion</label>
+				<div class="col-lg-10">
+				  <select class="form-control" id="selectCriterion" >                    
+					<option>entropy</option>
+					<option selected="selected">gini</option>
+				  </select>
+				  <span class="help-block">(string) The function to measure the quality of a split. Supported criteria are &#39;gini&#39; for the Gini impurity and &#39;entropy&#39; for the information gain.</span>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label for="selectSplitter " class="col-lg-2 control-label">splitter </label>
+				<div class="col-lg-10">
+				  <select class="form-control" id="selectSplitter" >                    						
+					<option selected="selected">best</option>
+					<option>random</option>
+				  </select>
+				  <span class="help-block">(string) The strategy used to choose the split at each node. Supported strategies are &#39;best&#39; to choose the best split and &#39;random&#39; to choose the best random split.</span>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label for="inputMaxFeatures" class="col-lg-2 control-label">max_features</label>
+				<div class="col-lg-10">
+				  <input type="text" class="form-control" id="inputMaxFeatures">
+				  <span class="help-block">(int, float, string or None) 
+					The number of features to consider when looking for the best split:
+					<ul>
+					  <li>If int, then consider max_features features at each split.
+					  <li>If float, then max_features is a percentage and int(max_features * n_features) features are considered at each split.
+					  <li>If &#39;auto&#39;, then max_features=sqrt(n_features).
+					  <li>If &#39;sqrt&#39;, then max_features=sqrt(n_features).
+					  <li>If &#39;log2&#39;, then max_features=log2(n_features).
+					  <li>If None, then max_features=n_features.
+					</ul>
+					Note: the search for a split does not stop until at least one valid partition of the node samples is found, even if it requires to effectively inspect more than max_features features.</span>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label for="inputMaxDepth" class="col-lg-2 control-label">max_depth</label>
+				<div class="col-lg-10">
+				  <input type="text" class="form-control" id="inputMaxDepth">
+				  <span class="help-block">(int or None) The maximum depth of the tree. If None, then nodes are expanded until all leaves are pure or until all leaves contain less than min_samples_split samples. Ignored if max_leaf_nodes is not None.</span>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label for="inputMinSamplesSplit" class="col-lg-2 control-label">min_samples_split</label>
+				<div class="col-lg-10">
+				  <input type="text" class="form-control" id="inputMinSamplesSplit" value="2">
+				  <span class="help-block">(int) The minimum number of samples required to split an internal node.</span>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label for="inputMinSamplesLeaf" class="col-lg-2 control-label">min_samples_leaf</label>
+				<div class="col-lg-10">
+				  <input type="text" class="form-control" id="inputMinSamplesLeaf" value="1">
+				  <span class="help-block">(int) The minimum number of samples required to be at a leaf node.</span>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label for="inputMinWeightFrectionLeaf" class="col-lg-2 control-label">min_weight_fraction_leaf</label>
+				<div class="col-lg-10">
+				  <input type="text" class="form-control" id="inputMinWeightFrectionLeaf" value="0">
+				  <span class="help-block">(float) The minimum weighted fraction of the input samples required to be at a leaf node.</span>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label for="inputMaxLeafNodes" class="col-lg-2 control-label">max_leaf_nodes</label>
+				<div class="col-lg-10">
+				  <input type="text" class="form-control" id="inputMaxLeafNodes">
+				  <span class="help-block">(int or None) Grow a tree with max_leaf_nodes in best-first fashion. Best nodes are defined as relative reduction in impurity. If None then unlimited number of leaf nodes. If not None then max_depth will be ignored.</span>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label for="inputRandomState" class="col-lg-2 control-label">random_state</label>
+				<div class="col-lg-10">
+				  <input type="text" class="form-control" id="inputRandomState">
+				  <span class="help-block">(int, &#39;RandomState&#39; or None) If int, random_state is the seed used by the random number generator; If &#39;RandomState&#39;, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random.</span>
+				</div>
+			  </div>
+			  <div class="form-group">
+                <label for="inputClassWeight " class="col-lg-2 control-label">class_weight </label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" id="inputClassWeight">
+				  <span class="help-block">(dict, list of dicts, &#39;balanced&#39; or None) Weights associated with classes in the form {class_label: weight}. If not given, all classes are supposed to have weight one. For multi-output problems, a list of dicts can be provided in the same order as the columns of y. 
+				  The &#39;balanced&#39; mode uses the values of y to automatically adjust weights inversely proportional to class frequencies in the input data as n_samples / (n_classes * np.bincount(y)).
+				  For multi-output, the weights of each column of y will be multiplied. Note that these weights will be multiplied with sample_weight (passed through the fit method) if sample_weight is specified.</span>
+                </div>
+              </div>
+			  <div class="form-group">
+                <label for="inputPresort" class="col-lg-2 control-label">presort</label>
+                <div class="col-lg-10">
+                  <input type="checkbox" id="inputPresort"> Whether to presort the data to speed up the finding of best splits in fitting.
+				  <span class="help-block">(boolean) For the default settings of a decision tree on large datasets, setting this to true may slow down the training process. When using either a smaller dataset or a restricted depth, this may speed up the training.</span>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+		  
+        </div>
+      </div>
+	  <br>			
+			<br>					
+			<button type="button" class="btn btn-default">Back</button>
+			<button type="button" class="btn btn-primary">Continue</button>
+    </div>
+  </div>
+  
+  
+</div>
