@@ -43,18 +43,38 @@
 		<li class="active"><a href="#/users"
         class="list-item"
         ng-click="selected = 'users'"
-        ng-class="{'active': selected == 'users'}"> Użytkownicy </a> </li>
+        ng-class="{'active': selected == 'users'}"> Users </a> </li>
 		
 		<li class="active"><a href="#/classifiers"
         class="list-item"
         ng-click="selected = 'classifiers'"
-        ng-class="{'active': selected == 'classifiers'}"> Klasyfikatory</a></li>
+        ng-class="{'active': selected == 'classifiers'}"> Classifiers </a></li>
 
-		<li class="active"><a href="#/svc_params"
+		<li class="active"><a href="#/svm_params"
         class="list-item"
-        ng-click="selected = 'svc_params'"
-        ng-class="{'active': selected == 'svc_params'}"> SVC </a></li>
+        ng-click="selected = 'svm_params'"
+        ng-class="{'active': selected == 'svm_params'}"> SVM </a></li>
+		
+		<li class="active"><a href="#/dTree_params"
+        class="list-item"
+        ng-click="selected = 'dTree_params'"
+        ng-class="{'active': selected == 'dTree_params'}"> dTree </a></li>
+		
+		<li class="active"><a href="#/learningCurve"
+        class="list-item"
+        ng-click="selected = 'learningCurve'"
+        ng-class="{'active': selected == 'learningCurve'}"> LearningCurve </a></li>
 
+		<li class="active"><a href="#/kFold"
+        class="list-item"
+        ng-click="selected = 'kFold'"
+        ng-class="{'active': selected == 'kFold'}"> kFold </a></li>
+		
+		<li class="active"><a href="#/shuffleSplit"
+        class="list-item"
+        ng-click="selected = 'shuffleSplit'"
+        ng-class="{'active': selected == 'shuffleSplit'}"> shuffleSplit </a></li>
+		
         <li class="active"><a href="#/result"
         class="list-item"
         ng-click="selected = 'result'"

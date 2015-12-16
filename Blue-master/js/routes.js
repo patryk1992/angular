@@ -28,8 +28,28 @@ $routeProvider.when('/',{
         controller:'ClassifierController',
         controllerAs:'classifierCtrl'
         })
-		.when('/svc_params',{
-        templateUrl: 'templates/pages/classifiers/svc_params_index.html',
+		.when('/svm_params',{
+        templateUrl: 'templates/pages/classifiers/svm_params_index.html',
+        controller:'LearningCurveController',
+        controllerAs:'learningCurveCtrl'
+        })
+		.when('/dTree_params',{
+        templateUrl: 'templates/pages/classifiers/dTree_params_index.html',
+        controller:'LearningCurveController',
+        controllerAs:'learningCurveCtrl'
+        })
+		.when('/learningCurve',{
+        templateUrl: 'templates/pages/learningCurve/index.html',
+        controller:'LearningCurveController',
+        controllerAs:'learningCurveCtrl'
+        })
+		.when('/kFold',{
+        templateUrl: 'templates/pages/learningCurve/kFold_params_index.html',
+        controller:'LearningCurveController',
+        controllerAs:'learningCurveCtrl'
+        })
+		.when('/shuffleSplit',{
+        templateUrl: 'templates/pages/learningCurve/shuffleSplit_params_index.html',
         controller:'LearningCurveController',
         controllerAs:'learningCurveCtrl'
         });

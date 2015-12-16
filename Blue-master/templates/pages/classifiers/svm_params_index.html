@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="page-header">
-          <h1 id="forms">SVC algorithm parameters</h1>
+          <h1 id="forms">SVM algorithm parameters</h1>
         </div>
       </div>
     </div>
@@ -109,7 +109,7 @@
                   <select class="form-control" id="selectParamDecisionFunctionShape" >                    
                     <option selected="selected">ovo</option>
                     <option>ovr</option>
-					<option>None</option>
+					<option></option>
                   </select>
 				  <span class="help-block">(string) Whether to return a one-vs-rest (&#39;ovr&#39;) decision function of shape (n_samples, n_classes) as all other classifiers, or the original one-vs-one (&#39;ovo&#39;) decision function of libsvm which has shape (n_samples, n_classes * (n_classes - 1) / 2). The default of None will currently behave as &#39;ovo&#39; for backward compatibility and raise a deprecation warning, but will change &#39;ovr&#39; in 0.18.<br>New in version 0.17: decision_function_shape=&#39;ovr&#39; is recommended.<br>Changed in version 0.17: Deprecated decision_function_shape=&#39;ovo&#39; and None.</span>
                 </div>
@@ -117,19 +117,10 @@
 			  <div class="form-group">
 			  <label for="inputParamRandomState" class="col-lg-2 control-label">random_state</label>
                 <div class="col-lg-10">
-                  <input type="text" class="form-control" id="inputParamRandomState" value="None">
-				  <span class="help-block">(int) The seed of the pseudo random number generator to use when shuffling the data for probability estimation.</span>
+                  <input type="text" class="form-control" id="inputParamRandomState">
+				  <span class="help-block">(int or None) The seed of the pseudo random number generator to use when shuffling the data for probability estimation.</span>
                 </div>
               </div>
-			  <div class="form-group" >			  
-			  <label for="selectLearningCurveAlgorithm" class="col-lg-2 control-label">LearningCurveAlgorithm</label>
-			  <div class="col-lg-10">
-						<select id="selectLearningCurveAlgorithm"  ng-model="data.repeatSelect">
-							<option value="" selected="selected">-None-</option>
-							<option ng-repeat="option in data.algorithms" value="{{option.id}}">{{option.name}} - {{option.description}}</option>		
-						</select>						
-				</div>
-			  </div>
             </fieldset>
           </form>
 		  
@@ -137,8 +128,8 @@
       </div>
 	  <br>			
 			<br>					
-			<button type="button" class="btn btn-default">Cofnij</button>
-			<button type="button" class="btn btn-primary">Dalej</button>
+			<button type="button" class="btn btn-default">Back</button>
+			<button type="button" class="btn btn-primary">Continue</button>
     </div>
   </div>
   

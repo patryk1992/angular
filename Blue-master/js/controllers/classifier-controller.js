@@ -5,9 +5,9 @@ angular.module("Blue").controller("ClassifierController",['$scope', function($sc
 	[
 		{
 			id : '1',
-			name: 'SVC',
+			name: 'SVM',
 			description: 'C-Support Vector Classification',
-			note: 'The implementation is based on libsvm. The fit time complexity is more than quadratic with the number of samples which makes it hard to scale to dataset with more than a couple of 10000 samples.\nThe multiclass support is handled according to a one-vs-one scheme.',
+			note: 'The implementation is based on libsvm. The fit time complexity is more than quadratic with the number of samples which makes it hard to scale to dataset with more than a couple of 10000 samples. The multiclass support is handled according to a one-vs-one scheme.',
 		},
 		{
 			id : '2',
@@ -19,7 +19,7 @@ angular.module("Blue").controller("ClassifierController",['$scope', function($sc
 			id : '3',
 			name: 'DecisionTreeClassifier',
 			description: 'A decision tree classifier.',
-			note: '*note*',
+			note: 'Decision Trees (DTs) are a non-parametric supervised learning method used for classification and regression. The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features.',
 		},
 		]	
      
