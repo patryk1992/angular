@@ -1,12 +1,13 @@
 angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "ngTableParams", "$cookieStore", function($http, Base64, ngTableParams, $cookieStore) {
     var controller = this;
     var originalData;
+    var classifiersData;
     var globals = $cookieStore.get('globals');
     // $http.defaults.headers.common['Authorization'] = 'Basic YWRtaW46YWRtaW4=';
     // $http.defaults.withCredentials = true;
     $http({
         method: 'GET',
-        url: '/dataprocessing/rest-api/resultDocumentCollections',        
+        url: '/dataprocessing/rest-api/resultTestClassifiers',
         headers: {
             'Content-Type': 'application/json',
             // 'params': {
@@ -15,13 +16,50 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
             // }
         }
     }).success(function(data) {
-        controller.results = data.response.results;
-        originalData = angular.copy(controller.results);
-        controller.tableParams = new ngTableParams({
-            count: 10
-        }, {
-            dataset: controller.results
-        });
+        if (data._embedded != null) {
+            controller.results = data._embedded.resultTestClassifiers;
+            originalData = angular.copy(controller.results);
+            controller.tableParams = new ngTableParams({
+                count: 10
+            }, {
+                dataset: controller.results
+            });
+        }
+    });
+    controller.classifiersData = [];
+    $http({
+        method: 'GET',
+        url: '/dataprocessing/rest-api/classifiers',
+        headers: {
+            // 'Authorization': 'Basic '+Base64.encode('admin:admin')   
+        }
+    }).success(function(data) {
+        controller.classifiersData = data._embedded.classifiers;
+
+    });
+
+    controller.vectorizedDocumentCollections = [];
+    $http({
+        method: 'GET',
+        url: '/dataprocessing/rest-api/vectorizedDocumentCollections',
+        headers: {
+            // 'Authorization': 'Basic '+Base64.encode('admin:admin')   
+        }
+    }).success(function(data) {
+        controller.vectorizedDocumentCollections = data._embedded.vectorizedDocumentCollections;
+        
+    });
+
+    controller.documentCollections = [];
+    $http({
+        method: 'GET',
+        url: '/dataprocessing/rest-api/documentCollections',
+        headers: {
+            // 'Authorization': 'Basic '+Base64.encode('admin:admin')   
+        }
+    }).success(function(data) {
+        controller.documentCollections = data._embedded.documentCollections;
+       
     });
 
     controller.deleteCount = 0;
@@ -31,6 +69,31 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
     controller.del = del;
     controller.hasChanges = hasChanges;
     controller.saveChanges = saveChanges;
+    controller.getClassifierName = getClassifierName;
+    controller.getDocumentCollectionName = getDocumentCollectionName;
+
+
+    function getClassifierName(id) {
+
+        for (key in controller.classifiersData) {
+            if (controller.classifiersData[key].userId == id) {
+                return controller.classifiersData[key].name;
+            }
+        }
+    }
+
+    function getDocumentCollectionName(id) {
+
+        for (key in controller.vectorizedDocumentCollections) {
+            if (controller.vectorizedDocumentCollections[key].idVectorizedDocumentCollection == id) {
+                for (index in controller.documentCollections) {
+                    if (controller.documentCollections[index].idDocumentCollection == controller.vectorizedDocumentCollections[key].documentCollectionId) {
+                        return controller.documentCollections[index].name;
+                    }
+                }
+            }
+        }
+    }
 
     function add() {
         controller.isEditing = true;
@@ -96,13 +159,13 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
 
     function saveChanges() {
         resetTableStatus();
-        var currentPage = controller.tableParams.page();       
+        var currentPage = controller.tableParams.page();
 
         // usuniecie użytkowników
         for (key in controller.deletedresults) {
             $http({
-                method: 'GET',
-                url: '/solr/collection1/update?stream.body=<delete><query>id:' + controller.deletedresults[key].id+'</query> </delete>&commit=true',
+                method: 'DELETE',
+                url: '/dataprocessing/rest-api/resultTestClassifiers/' + controller.deletedresults[key].idResultTestClassifier,
                 headers: {
                     // 'Authorization': 'Basic '+Base64.encode('admin:admin'),
                     'Content-Type': 'application/json'

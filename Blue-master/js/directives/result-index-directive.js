@@ -14,6 +14,7 @@
 
   resultTrackedTableController.$inject = ["$scope", "$parse", "$attrs", "$element"];
 
+  
   function resultTrackedTableController($scope, $parse, $attrs, $element) {
     var self = this;
     var tableForm = $element.controller("form");
