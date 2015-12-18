@@ -24,12 +24,12 @@
                                 <span >{{result.idResultTestClassifier}}</span>
                                 
                             </td>
-                            <td title="'Document collection'" filter="{vectoriziedDocumentCollectionId: 'text'}" ng-switch="resultIndexCtrl.isEditing" sortable="'vectoriziedDocumentCollectionId'" ng-form="vectoriziedDocumentCollectionId">
-                                <span>{{resultIndexCtrl.getDocumentCollectionName(result.vectoriziedDocumentCollectionId)}}</span>
+                            <td title="'Document collection'" filter="{documentCollectionName: 'text'}" ng-switch="resultIndexCtrl.isEditing" sortable="'documentCollectionName'" ng-form="documentCollectionName">
+                                <span>{{result.documentCollectionName}}</span>
                                 
                             </td>
-                            <td title="'Classifier'" filter="{parameter: 'text'}" ng-switch="resultIndexCtrl.isEditing" sortable="'classifierId'" ng-form="classifierId">
-                                <span>{{resultIndexCtrl.getClassifierName(result.classifierId)}}</span>
+                            <td title="'Classifier'" filter="{classifierName: 'text'}" ng-switch="resultIndexCtrl.isEditing" sortable="'classifierName'" ng-form="classifierName">
+                                <span>{{result.classifierName}}</span>
                                 
                             </td>
                             <td title="'Parameter'" filter="{parameter: 'text'}" ng-switch="resultIndexCtrl.isEditing" sortable="'parameter'" ng-form="parameter">

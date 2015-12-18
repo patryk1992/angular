@@ -17,50 +17,59 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
         }
     }).success(function(data) {
         if (data._embedded != null) {
-            controller.results = data._embedded.resultTestClassifiers;
+            controller.results = data._embedded.resultTestClassifiers; /////////////tu popraw przypisz poprawna tabele
             originalData = angular.copy(controller.results);
-            controller.tableParams = new ngTableParams({
-                count: 10
-            }, {
-                dataset: controller.results
+
+            controller.classifiersData = [];
+            $http({
+                method: 'GET',
+                url: '/dataprocessing/rest-api/classifiers',
+                headers: {
+                    // 'Authorization': 'Basic '+Base64.encode('admin:admin')   
+                }
+            }).success(function(data) {
+                controller.classifiersData = data._embedded.classifiers;
+                controller.vectorizedDocumentCollections = [];
+                $http({
+                    method: 'GET',
+                    url: '/dataprocessing/rest-api/vectorizedDocumentCollections',
+                    headers: {
+                        // 'Authorization': 'Basic '+Base64.encode('admin:admin')   
+                    }
+                }).success(function(data) {
+                    controller.vectorizedDocumentCollections = data._embedded.vectorizedDocumentCollections;
+                    controller.documentCollections = [];
+                    $http({
+                        method: 'GET',
+                        url: '/dataprocessing/rest-api/documentCollections',
+                        headers: {
+                            // 'Authorization': 'Basic '+Base64.encode('admin:admin')   
+                        }
+                    }).success(function(data) {
+                        controller.documentCollections = data._embedded.documentCollections;
+
+                        for (key in controller.results) {
+                           controller.results[key].classifierName=getClassifierName( controller.results[key].classifierId);
+                           controller.results[key].documentCollectionName=getDocumentCollectionName( controller.results[key].vectoriziedDocumentCollectionId);
+                        }
+                        controller.tableParams = new ngTableParams({
+                            count: 10
+                        }, {
+                            dataset: controller.results
+                        });
+                    });
+
+                });
+
+
             });
-        }
-    });
-    controller.classifiersData = [];
-    $http({
-        method: 'GET',
-        url: '/dataprocessing/rest-api/classifiers',
-        headers: {
-            // 'Authorization': 'Basic '+Base64.encode('admin:admin')   
-        }
-    }).success(function(data) {
-        controller.classifiersData = data._embedded.classifiers;
 
+
+        }
     });
 
-    controller.vectorizedDocumentCollections = [];
-    $http({
-        method: 'GET',
-        url: '/dataprocessing/rest-api/vectorizedDocumentCollections',
-        headers: {
-            // 'Authorization': 'Basic '+Base64.encode('admin:admin')   
-        }
-    }).success(function(data) {
-        controller.vectorizedDocumentCollections = data._embedded.vectorizedDocumentCollections;
-        
-    });
 
-    controller.documentCollections = [];
-    $http({
-        method: 'GET',
-        url: '/dataprocessing/rest-api/documentCollections',
-        headers: {
-            // 'Authorization': 'Basic '+Base64.encode('admin:admin')   
-        }
-    }).success(function(data) {
-        controller.documentCollections = data._embedded.documentCollections;
-       
-    });
+
 
     controller.deleteCount = 0;
     controller.deletedresults = [];
