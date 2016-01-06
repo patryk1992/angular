@@ -55,8 +55,8 @@ $routeProvider.when('/',{
         })
 		.when('/classList',{
         templateUrl: 'templates/pages/classifiers/classList.html',
-        controller:'ClassifierController',
-        controllerAs:'classifierCtrl'
+        controller:'ClassifierListController',
+        controllerAs:'classifierListCtrl'
         })
 		.when('/newDocs',{
         templateUrl: 'templates/pages/newDocs/index.html',

@@ -1,4 +1,4 @@
-angular.module("Blue").controller("DocumentsIndexController", ["$http", "Base64", "ngTableParams", "$cookieStore", "$location", function($http, Base64, ngTableParams, $cookieStore, $location) {
+angular.module("Blue").controller("DocumentsDetailsController", ["$http", "Base64", "ngTableParams", "$cookieStore", function($http, Base64, ngTableParams, $cookieStore) {
     var controller = this;
     var originalData;
     var globals = $cookieStore.get('globals');
@@ -63,9 +63,6 @@ angular.module("Blue").controller("DocumentsIndexController", ["$http", "Base64"
     }
 
     function docsList(res) {
-        console.log(res.idDocumentCollection);
-        $location.path('/documentsDetails/'+res.idDocumentCollection);
-/*
         var docsId = res.idDocumentCollection;
 
         $http({
@@ -86,7 +83,7 @@ angular.module("Blue").controller("DocumentsIndexController", ["$http", "Base64"
             dataset: docsLists
         });
     });
-*/
+
 
     }
 

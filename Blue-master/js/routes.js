@@ -53,6 +53,12 @@ $routeProvider.when('/',{
         controller:'DocumentsIndexController',
         controllerAs:'documentsIndexCtrl'
         })
+		.when('/documentsDetails/:id',{
+        templateUrl: 'templates/pages/documents/details.html',
+        controller:'DocumentsDetailsController',
+        controllerAs:'documentsDetailsCtrl'
+        })
+
 		.when('/classList',{
         templateUrl: 'templates/pages/classifiers/classList.html',
         controller:'ClassifierListController',

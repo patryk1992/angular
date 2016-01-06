@@ -29,7 +29,7 @@ angular.module("Blue").controller("UsersIndexController", ["$http", "Base64", "n
     controller.del = del;
     controller.hasChanges = hasChanges;
     controller.saveChanges = saveChanges;
-    controller.getClassifierName = getClassifierName;
+   // controller.getClassifierName = getClassifierName;
 
     function add() {
         controller.isEditing = true;

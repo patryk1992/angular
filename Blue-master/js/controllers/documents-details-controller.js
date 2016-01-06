@@ -1,13 +1,12 @@
-angular.module("Blue").controller("DocumentsIndexController", ["$http", "Base64", "ngTableParams", "$cookieStore", "$location", function($http, Base64, ngTableParams, $cookieStore, $location) {
+angular.module("Blue").controller("DocumentsDetailsController", ["$http", "Base64", "ngTableParams", "$cookieStore", "$routeParams", function($http, Base64, ngTableParams, $cookieStore, $routeParams) {
     var controller = this;
     var originalData;
     var globals = $cookieStore.get('globals');
     var docsLists;
-    // $http.defaults.headers.common['Authorization'] = 'Basic YWRtaW46YWRtaW4=';
-    // $http.defaults.withCredentials = true;
+    var idColl = $routeParams.id;
     $http({
         method: 'GET',
-        url: '/dataprocessing/rest-api/documentCollections',        
+        url: '/dataprocessing/rest-api/documentCollections/'+idColl+'/documents',        
         headers: {
             'Content-Type': 'application/json',
             // 'params': {
@@ -16,7 +15,7 @@ angular.module("Blue").controller("DocumentsIndexController", ["$http", "Base64"
             // }
         }
     }).success(function(data) {
-        controller.results = data._embedded.documentCollections;
+        controller.results = data._embedded.documents;
         originalData = angular.copy(controller.results);
         controller.tableParams = new ngTableParams({
             count: 10
@@ -26,7 +25,7 @@ angular.module("Blue").controller("DocumentsIndexController", ["$http", "Base64"
     });
 
     controller.deleteCount = 0;
-    controller.deletedresults = [];
+       controller.deletedresults = [];
     controller.add = add;
     controller.cancelChanges = cancelChanges;
     controller.del = del;
@@ -63,9 +62,6 @@ angular.module("Blue").controller("DocumentsIndexController", ["$http", "Base64"
     }
 
     function docsList(res) {
-        console.log(res.idDocumentCollection);
-        $location.path('/documentsDetails/'+res.idDocumentCollection);
-/*
         var docsId = res.idDocumentCollection;
 
         $http({
@@ -86,7 +82,7 @@ angular.module("Blue").controller("DocumentsIndexController", ["$http", "Base64"
             dataset: docsLists
         });
     });
-*/
+
 
     }
 

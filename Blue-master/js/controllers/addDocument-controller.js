@@ -1,7 +1,7 @@
-var fileUp = angular.module("Blue",[]);
+//var fileUp = angular.module("Blue",[]);
 
-.controller("addDocumentController", ["$http", "Base64", "$cookieStore", function($http, Base64, $cookieStore) {
-
+//.controller("addDocumentController", ["$http", "Base64", "$cookieStore", function($http, Base64, $cookieStore) {
+/*
 myApp.directive('fileModel', ['$parse', function ($parse) {
     return {
         restrict: 'A',
@@ -51,3 +51,4 @@ myApp..controller("addDocumentController", ["$scope", "fileUpload","$http", "Bas
     <input type="file" file-model="myFile"/>
     <button ng-click="uploadFile()">upload me</button>
 </div>
+*/
