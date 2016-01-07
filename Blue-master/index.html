@@ -23,6 +23,7 @@
 <script src="js/routes.js"></script>
 <!-- <script src="js/base64.js"></script> -->
 <!-- Controllers -->
+<script src="js/controllers/documents-marked-controller.js"></script>
 <script src="js/controllers/users-index-controller.js"></script>
 <script src="js/controllers/result-index-controller.js"></script>
 <script src="js/controllers/login-index-controller.js"></script>
@@ -88,6 +89,11 @@
         class="list-item"
         ng-click="selected = 'documents'"
         ng-class="{'active': selected == 'documents'}"> Collections</a></li>
+
+        <li class="active"><a href="#/documentsCollections"
+        class="list-item"
+        ng-click="selected = 'documentsCollections'"
+        ng-class="{'active': selected == 'documentsCollections'}"> Collections to mark</a></li>
 
         <li class="active"><a href="#/classList"
         class="list-item"

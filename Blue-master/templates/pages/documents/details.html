@@ -20,21 +20,32 @@
                     </div>
                     <table ng-table="documentsDetailsCtrl.tableParams" class="table table-striped table-bordered table-hover" ng-form="documentsDetailsCtrl.tableForm" demo-tracked-table="documentsDetailsCtrl.tableTracker">
                         <tr ng-repeat="result in $data" ng-form="rowForm">
-                            <td title="'ID'" filter="{idDocumentCollection: 'text'}" ng-switch="documentsDetailsCtrl.isEditing" sortable="'title'" ng-form="title">
-                                <span >{{result.idDocumentCollection}}</span>                                                                
+                            <td title="'ID'" filter="{idDocument: 'text'}" ng-switch="documentsDetailsCtrl.isEditing" sortable="'title'" ng-form="title">
+                                <span >{{result.idDocument}}</span>                                                                
                             </td>
-                            <td title="'Document collection'" filter="{name: 'text'}" ng-switch="documentsDetailsCtrl.isEditing" sortable="'content'" ng-form="content">
+                            <td title="'Document name'" filter="{name: 'text'}" ng-switch="documentsDetailsCtrl.isEditing" sortable="'content'" ng-form="content">
                                 <span>{{result.name}}</span>
+                                
+                            </td>
+                             <td title="'Content'" >                          
+                               <button class="btn btn-default" ng-click="documentsDetailsCtrl.showContent(result)">Show
+                                 
+                                </button>
+                                
+                            </td>
+                              <td title="'Opts'" >                          
+                                <button class="btn btn-default" ng-click="documentsDetailsCtrl.goToAnnotation(result)">Go to annotation
+                                </button>
+                                <button class="btn btn-default" ng-click="documentsIndexCtrl.docsList(result)">Add cl                            
+                                </button>
+                                <button class="btn btn-default" ng-click="documentsIndexCtrl.docsList(result)">Test cl                            
+                                </button>
                                 
                             </td>
                             
                             <td>
                                 <button class="btn btn-danger btn-sm" ng-click="documentsDetailsCtrl.del(result)" ng-disabled="!documentsDetailsCtrl.isEditing">
                                     <span class="glyphicon glyphicon-trash"></span>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="btn btn-default" ng-click="documentsDetailsCtrl.docsList(result)">Lista                            
                                 </button>
                             </td>
                         </tr>
