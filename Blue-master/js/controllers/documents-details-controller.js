@@ -1,8 +1,7 @@
-angular.module("Blue").controller("DocumentsDetailsController", ["$http", "Base64", "ngTableParams", "$cookieStore", "$routeParams", function($http, Base64, ngTableParams, $cookieStore, $routeParams) {
+angular.module("Blue").controller("DocumentsDetailsController", ["$http", "Base64", "ngTableParams", "$cookieStore", "$routeParams", "$window", "$location", function($http, Base64, ngTableParams, $cookieStore, $routeParams, $window, $location) {
     var controller = this;
     var originalData;
     var globals = $cookieStore.get('globals');
-    var docsLists;
     var idColl = $routeParams.id;
     $http({
         method: 'GET',
@@ -31,8 +30,8 @@ angular.module("Blue").controller("DocumentsDetailsController", ["$http", "Base6
     controller.del = del;
     controller.hasChanges = hasChanges;
     controller.saveChanges = saveChanges;
-    controller.docsList = docsList;
-
+    controller.showContent = showContent;
+    
     function add() {
         controller.isEditing = true;
         controller.isAdding = true;
@@ -61,31 +60,6 @@ angular.module("Blue").controller("DocumentsDetailsController", ["$http", "Base6
         }
     }
 
-    function docsList(res) {
-        var docsId = res.idDocumentCollection;
-
-        $http({
-        method: 'GET',
-        url: '/dataprocessing/rest-api/documentCollections/'+docsId+'/documents',        
-        headers: {
-            'Content-Type': 'application/json',
-            // 'params': {
-            //     'wt': 'json',
-            //     'q': '*:*'
-            // }
-        }
-    }).success(function(data) {
-        docsLists = data._embedded.documents;
-        controller.tableParams = new ngTableParams({
-            count: 10
-        }, {
-            dataset: docsLists
-        });
-    });
-
-
-    }
-
     function del(row) {
         /* _.remove(controller.tableParams.settings().dataset, function(item) {
            return row === item;
@@ -106,6 +80,16 @@ angular.module("Blue").controller("DocumentsDetailsController", ["$http", "Base6
 
         controller.tableParams.reload()
 
+    }
+
+    function showContent(res) {
+        console.log(res);
+        $window.open("data:text/html,"+ encodeURIComponent(res.contents), "_blank", "width=800,height=600");
+    }
+
+    function goToAnnotation(res) {
+        console.log(res);
+       // $location.path('/documentsDetails/'+res.idDocumentCollection);
     }
 
     function hasChanges() {

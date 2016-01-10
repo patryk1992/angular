@@ -63,7 +63,6 @@ angular.module("Blue").controller("DocumentsIndexController", ["$http", "Base64"
     }
 
     function docsList(res) {
-        console.log(res.idDocumentCollection);
         $location.path('/documentsDetails/'+res.idDocumentCollection);
 /*
         var docsId = res.idDocumentCollection;

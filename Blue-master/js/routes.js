@@ -58,7 +58,11 @@ $routeProvider.when('/',{
         controller:'DocumentsDetailsController',
         controllerAs:'documentsDetailsCtrl'
         })
-
+                .when('/documentsCollections',{
+        templateUrl: 'templates/pages/documents/collectionsMarked.html',
+        controller:'DocumentsCollectionsController',
+        controllerAs:'documentsCollectionsCtrl'
+        })
 		.when('/classList',{
         templateUrl: 'templates/pages/classifiers/classList.html',
         controller:'ClassifierListController',
