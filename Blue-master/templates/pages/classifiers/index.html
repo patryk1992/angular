@@ -16,7 +16,7 @@
             <fieldset>
 				<div class="form-group" >
 					<div  >
-						<ul ng-repeat="option in data.algorithms">
+						<ul ng-repeat="option in data.algorithms" ng-init="data.repeatSelect=1">
 								<input type="radio" ng-model="data.repeatSelect" name="name" value="{{option.id}}"/>
 								<label>{{option.name}}</label>							
 								<p >&emsp; {{option.description}}</p>
@@ -161,7 +161,35 @@
     </div>
   </div>
 </div>
-  
+
+	  
+<div class="container" ng-hide="data.repeatSelect != '2'">
+  <div class="bs-docs-section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-header">
+          <h1 id="forms">NaiveBytes algorithm parameters</h1>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="well">
+          <form class="bs-example form-horizontal">
+			<fieldset>
+			  <div class="form-group">
+				<label name="noParams" class="col-lg-2 control-label">No parameters</label>
+			  </div>
+			</fieldset>
+		  </form>
+        </div>
+      </div>
+	  <br>			
+    </div>
+  </div>
+</div>
+
+
 <div class="container" ng-hide="data.repeatSelect != '3'">
   <div class="bs-docs-section">
     <div class="row">
@@ -300,7 +328,7 @@
             <fieldset>
 				<div class="form-group" >
 					<div >
-						<ul ng-repeat="option in data.learningCurveAlgorithms">
+						<ul ng-repeat="option in data.learningCurveAlgorithms" ng-init="data.repeatSelectLCurve=0">
 								<input type="radio" ng-model="data.repeatSelectLCurve" name="name" value="{{option.id}}"/>
 								<label>{{option.name}}</label>							
 								<p >&emsp; {{option.description}}</p>
