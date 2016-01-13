@@ -18,7 +18,7 @@ $routeProvider.when('/',{
         controller:'UsersIndexController',
         controllerAs:'usersIndexCtrl'
         })
-                .when('/result',{
+        .when('/result',{
         templateUrl: 'templates/pages/result/index.html',
         controller:'ResultIndexController',
         controllerAs:'resultIndexCtrl'
@@ -27,27 +27,7 @@ $routeProvider.when('/',{
         templateUrl: 'templates/pages/classifiers/index.html',
         controller:'ClassifierController',
         controllerAs:'classifierCtrl'
-        })
-		.when('/svm_params',{
-        templateUrl: 'templates/pages/classifiers/svm_params_index.html',
-        controller:'LearningCurveController',
-        controllerAs:'learningCurveCtrl'
-        })
-		.when('/dTree_params',{
-        templateUrl: 'templates/pages/classifiers/dTree_params_index.html',
-        controller:'LearningCurveController',
-        controllerAs:'learningCurveCtrl'
-        })
-		.when('/learningCurve',{
-        templateUrl: 'templates/pages/learningCurve/index.html',
-        controller:'LearningCurveController',
-        controllerAs:'learningCurveCtrl'
-        })
-		.when('/kFold',{
-        templateUrl: 'templates/pages/learningCurve/kFold_params_index.html',
-        controller:'LearningCurveController',
-        controllerAs:'learningCurveCtrl'
-        })
+        })		
 		.when('/documents',{
         templateUrl: 'templates/pages/documents/index.html',
         controller:'DocumentsIndexController',
