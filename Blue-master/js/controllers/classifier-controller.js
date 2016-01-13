@@ -1,4 +1,4 @@
-angular.module("Blue").controller("ClassifierController",['$scope', function($scope) {
+angular.module("Blue").controller("ClassifierController",['$http', '$scope', function($http, $scope) {
 	$scope.data = {
 	repeatSelect: null,
     algorithms : 
@@ -21,8 +21,7 @@ angular.module("Blue").controller("ClassifierController",['$scope', function($sc
 			description: 'A decision tree classifier.',
 			note: 'Decision Trees (DTs) are a non-parametric supervised learning method used for classification and regression. The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features.',
 		},
-		],
-		
+	],
 	learningCurveAlgorithms:
 	[
 	{
@@ -42,8 +41,28 @@ angular.module("Blue").controller("ClassifierController",['$scope', function($sc
 			description: 'Random permutation cross-validation iterator.',
 			note: 'Yields indices to split data into training and test sets.\nContrary to other cross-validation strategies, random splits do not guarantee that all folds will be different, although this is still very likely for sizeable datasets.',
 		}
-		]
-     
-	};	 
+	]
+	};
+
+	$scope.addNewClassifier = function(form)
+	{
+		var name = $scope.classifierName;
+		var params = $scope.fields;
+		$http({method: 'POST', 
+				url: '/dataprocessing/rest-api/', 	
+				data: {
+					name: $scope.classifierName,
+					params,
+					},
+				headers: {               
+					'Content-Type': 'application/json'      
+				}
+				}).success(function(data){
+					var params = "";
+				}).error(function(data){
+					//$window.alert(JSON.stringify(data));
+            	});
+	};
+	
     }]);
 		

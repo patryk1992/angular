@@ -38,7 +38,7 @@ $routeProvider.when('/',{
         controller:'DocumentsDetailsController',
         controllerAs:'documentsDetailsCtrl'
         })
-                .when('/documentsCollections',{
+        .when('/documentsCollections',{
         templateUrl: 'templates/pages/documents/collectionsMarked.html',
         controller:'DocumentsCollectionsController',
         controllerAs:'documentsCollectionsCtrl'
@@ -52,10 +52,5 @@ $routeProvider.when('/',{
         templateUrl: 'templates/pages/newDocs/index.html',
         controller:'addDocumentController',
         controllerAs:'addDocumentCtrl'
-        })
-		.when('/shuffleSplit',{
-        templateUrl: 'templates/pages/learningCurve/shuffleSplit_params_index.html',
-        controller:'LearningCurveController',
-        controllerAs:'learningCurveCtrl'
         });
 });
