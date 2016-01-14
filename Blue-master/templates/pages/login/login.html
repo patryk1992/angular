@@ -2,18 +2,18 @@
     <div class="container">
 
       <form class="form-signin">
-        <h2 class="form-signin-heading">Zaloguj się</h2>
-        <label for="inputLogin" class="sr-only">Nazwa użytkownika</label>
-        <input ng-model="loginIndexCtrl.inputLogin" id="inputLogin" class="form-control" placeholder="Nazwa użytkownika" required autofocus>
-        <label for="inputPassword" class="sr-only">Hasło</label>
-        <input ng-model="loginIndexCtrl.inputPassword" type="password" id="inputPassword" class="form-control" placeholder="Hasło" required>
+        <h2 class="form-signin-heading">Sign in</h2>
+        <label for="inputLogin" class="sr-only">Login</label>
+        <input ng-model="loginIndexCtrl.inputLogin" id="inputLogin" class="form-control" placeholder="Login" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input ng-model="loginIndexCtrl.inputPassword" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
         <div class="checkbox">
           <label>
             <!-- <input type="checkbox" value="remember-me"> Remember me -->
-            <button class="btn btn-link" type="button">Utwórz konto</button>
+            <button class="btn btn-link" type="button" onclick="window.location.href='index.html#/register'">Register</button>
           </label>
         </div>
-        <button ng-click="loginIndexCtrl.login()" class="btn btn-lg btn-primary btn-block" type="submit">Zaloguj się</button>
+        <button ng-click="loginIndexCtrl.login()" class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
       </form>
 
     </div> <!-- /container -->
