@@ -96,6 +96,7 @@ angular.module("Blue").controller("UsersIndexController", ["$http", "Base64", "n
     }
 
     function saveChanges() {
+        var globals = $cookieStore.get('globals');
         resetTableStatus();
         var currentPage = controller.tableParams.page();
         //zmiania użytkownika
@@ -126,7 +127,7 @@ angular.module("Blue").controller("UsersIndexController", ["$http", "Base64", "n
                 url: '/dataprocessing/register',
                 data: addedUsers[key],
                 headers: {
-                    // 'Authorization': 'Basic '+Base64.encode('admin:admin'),
+                    'Authorization': 'Basic '+ globals.currentUser.authdata,
                     'Content-Type': 'application/json'
                 }
             }).success(function(data) {
@@ -143,7 +144,24 @@ angular.module("Blue").controller("UsersIndexController", ["$http", "Base64", "n
                 url: '/dataprocessing/rest-api/users/' + changedUsers[key].idUser,
                 data: changedUsers[key],
                 headers: {
-                    // 'Authorization': 'Basic '+Base64.encode('admin:admin'),
+                    'Authorization': 'Basic '+ globals.currentUser.authdata,
+                    'Content-Type': 'application/json'
+                }
+            }).success(function(data) {
+
+            });
+        }
+        for (key in changedUsers) {
+            $http({
+                method: 'PUT',
+                url: '/dataprocessing/rest-api/users/' + changedUsers[key].idUser+ '/roles',
+                data: {
+                  "idRole": 2,
+                  "name": "ROLE_EXPERT"
+                 
+                  },
+                headers: {
+                    'Authorization': 'Basic '+ globals.currentUser.authdata,
                     'Content-Type': 'application/json'
                 }
             }).success(function(data) {
@@ -158,7 +176,7 @@ angular.module("Blue").controller("UsersIndexController", ["$http", "Base64", "n
                 method: 'DELETE',
                 url: '/dataprocessing/rest-api/users/' + controller.deletedUsers[key].idUser,
                 headers: {
-                    // 'Authorization': 'Basic '+Base64.encode('admin:admin'),
+                    'Authorization': 'Basic '+ globals.currentUser.authdata,
                     'Content-Type': 'application/json'
                 }
             }).success(function(data) {
