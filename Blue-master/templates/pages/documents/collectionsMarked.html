@@ -7,35 +7,30 @@
                 </div>
                 <div class="bs-example">
                     <div class="brn-group pull-right">
-                        <button class="btn btn-default" ng-if="documentsIndexCtrl.isEditing" ng-click="documentsIndexCtrl.cancelChanges()">
+                        <button class="btn btn-default" ng-if="documentsCollectionsCtrl.isEditing" ng-click="documentsCollectionsCtrl.cancelChanges()">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
-                        <button class="btn btn-primary" ng-if="!documentsIndexCtrl.isEditing" ng-click="documentsIndexCtrl.isEditing = true">
+                        <button class="btn btn-primary" ng-if="!documentsCollectionsCtrl.isEditing" ng-click="documentsCollectionsCtrl.isEditing = true">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </button>
-                        <button class="btn btn-primary" ng-if="documentsIndexCtrl.isEditing" ng-disabled="!documentsIndexCtrl.hasChanges() || documentsIndexCtrl.tableTracker.$invalid" ng-click="resultIndexCtrl.saveChanges()">
+                        <button class="btn btn-primary" ng-if="documentsCollectionsCtrl.isEditing" ng-disabled="!documentsCollectionsCtrl.hasChanges() || documentsCollectionsCtrl.tableTracker.$invalid" ng-click="resultIndexCtrl.saveChanges()">
                             <span class="glyphicon glyphicon-ok"></span>
                         </button>
                        
                     </div>
-                    <table ng-table="documentsIndexCtrl.tableParams" class="table table-striped table-bordered table-hover" ng-form="documentsIndexCtrl.tableForm" demo-tracked-table="documentsIndexCtrl.tableTracker">
+                    <table ng-table="documentsCollectionsCtrl.tableParams" class="table table-striped table-bordered table-hover" ng-form="documentsCollectionsCtrl.tableForm" demo-tracked-table="documentsCollectionsCtrl.tableTracker">
                         <tr ng-repeat="result in $data" ng-form="rowForm">
-                            <td title="'ID'" filter="{idDocumentCollection: 'text'}" ng-switch="documentsIndexCtrl.isEditing" sortable="'title'" ng-form="title">
+                            <td title="'ID'" filter="{idDocumentCollection: 'text'}" ng-switch="documentsCollectionsCtrl.isEditing" sortable="'title'" ng-form="title">
                                 <span >{{result.idDocumentCollection}}</span>                                                                
                             </td>
-                            <td title="'Document collection'" filter="{name: 'text'}" ng-switch="documentsIndexCtrl.isEditing" sortable="'content'" ng-form="content">
+                            <td title="'Document collection'" filter="{name: 'text'}" ng-switch="documentsCollectionsCtrl.isEditing" sortable="'content'" ng-form="content">
                                 <span>{{result.name}}</span>
                                 
                             </td>
                             
                             <td>
-                                <button class="btn btn-default" ng-click="documentsIndexCtrl.goToAnnotation(result)">Go to annotation
-                                </button>
-                                <button class="btn btn-default" ng-click="documentsIndexCtrl.goToClass(result)">Add cl                            
-                                </button>
-                            </td>
-                            <td>
-                                <button class="btn btn-default" ng-click="documentsIndexCtrl.docsList(result)">File list                           
+                                <button class="btn btn-danger btn-sm" ng-click="documentsCollectionsCtrl.del(result)" ng-disabled="!documentsCollectionsCtrl.isEditing">
+                                    <span class="glyphicon glyphicon-trash"></span>
                                 </button>
                             </td>
                         </tr>
