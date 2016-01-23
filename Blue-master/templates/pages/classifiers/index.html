@@ -344,7 +344,21 @@
 								<p >&emsp; {{option.note}}</p>
 								</p>
 						</ul>
+						
 				</div>
+				<div class="form-group">
+				<label for="inputTrainSize" class="col-lg-2 control-label">train_size</label>
+				<div class="col-lg-10">
+				  <input type="text" ng-model="train_size" ng-init="train_size='5'" class="form-control" id="inputTrainSize">
+				  <span class="help-block">(int) 
+					Absolute numbers of training examples that will be used to
+					generate the learning curve. It is interpreted as absolute sizes of the training sets.
+					Note that for classification the number of samples usually have to
+					be big enough to contain at least one sample from each class.
+
+				  </span>
+				</div>
+			  </div>
 				
 			</fieldset>
           </form>
@@ -392,6 +406,7 @@
 				  <span class="help-block">(None, int or &#39;RandomState&#39;) When shuffle=True, pseudo-random number generator state used for shuffling. If None, use default numpy RNG for shuffling.</span>
 				</div>
 			  </div>
+			  
             </fieldset>
           </form>
         </div>
@@ -435,18 +450,7 @@
 				  </ul></span>
 				</div>
 			  </div>
-			  <div class="form-group">
-				<label for="inputTrainSize" class="col-lg-2 control-label">train_size</label>
-				<div class="col-lg-10">
-				  <input type="text" ng-model="lcfields[2].train_size" ng-init="lcfields[2].train_size=''" class="form-control" id="inputTrainSize">
-				  <span class="help-block">(float, int, or None) 
-				  <ul>
-					<li>If float, should be between 0.0 and 1.0 and represent the proportion of the dataset to include in the train split. </li>
-					<li>If int, represents the absolute number of train samples. </li>
-					<li>If None, the ng-init= is automatically set to the complement of the test size.</li>
-				  </ul></span>
-				</div>
-			  </div>
+			  
 			  <div class="form-group">
 				<label for="inputRandomState" class="col-lg-2 control-label">random_state</label>
 				<div class="col-lg-10">

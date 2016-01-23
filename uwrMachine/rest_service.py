@@ -14,9 +14,11 @@ from json import dumps, loads
 
 @route('/hello', method = 'GET')
 def hello():
-	print(request)
-	callback = request.GET.get('callback')
-	return '{0}({1})'.format(callback, {'a':1, 'b':2})
+    callback = request.GET.get('callback')
+    classifier_name = request.GET.get('classifier_name')
+    print(callback)
+    print(classifier_name)
+    return '{0}({1})'.format(callback, {'a':1, 'b':2})
 
 def jsonp(request, dictionary):
 	if (request.query.callback):

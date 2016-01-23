@@ -1,4 +1,4 @@
-angular.module("Blue").controller("ClassifierController",['$http', '$scope', function($http, $scope) {
+angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$routeParams',  function($http, $scope, $routeParams) {
 	$scope.data = {
 	repeatSelect: null,
     algorithms : 
@@ -52,30 +52,30 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', fun
 
 	$scope.addNewClassifier = function()
 	{
+		
 		var params = $scope.fields[$scope.data.repeatSelect];
 		var lcparams = $scope.lcfields[$scope.data.repeatSelectLCurve];
 		var classifier_name = $scope.classifierName;
 		var classifier_type = $scope.data.algorithms[$scope.data.repeatSelect].algName;
 		var cross_validation_type = $scope.data.learningCurveAlgorithms[$scope.data.repeatSelectLCurve].algName;
-		$http({method: 'POST', 
-				url: '/dataprocessing/rest-api/', 	
-				data: {
-					'classifier_name' : classifier_name,
-					'classifier_type' : classifier_type,
-					'classifier_params' : params,
-					'cross_validation_type' : cross_validation_type,
-					'cross_validation_params' : lcparams,
-					'collection_id' : 2,
-					},
-				headers: {               
-					'Content-Type': 'application/json'      
-				}
-				}).success(function(data){
-					var params = "";
-				}).error(function(data){
-					//$window.alert(JSON.stringify(data));
-            	});
+		var train_size = $scope.train_size;
+		
+		$http.jsonp("http://localhost:8082/hello?callback=JSON_CALLBACK",
+		{params : 
+			{
+				'classifier_name' : classifier_name,
+				'classifier_type' : classifier_type,
+				'classifier_params' : params,
+				'cross_validation_type' : cross_validation_type,
+				'cross_validation_params' : lcparams,
+				'collection_id' : $routeParams.collection_id,
+				'train_size' : train_size,
+			}
+		}
+		).then(function(json) {
+            console.log(json); });
 	};
+
 	
     }]);
 		
