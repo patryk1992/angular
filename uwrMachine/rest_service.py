@@ -1,6 +1,6 @@
 from bottle import request, run, route, response
 import bottle
-import GET as wtf
+import GET2 as wtf
 import classifier
 import numpy as np
 import POST as post
@@ -15,9 +15,13 @@ from json import dumps, loads
 @route('/hello', method = 'GET')
 def hello():
     callback = request.GET.get('callback')
+<<<<<<< HEAD
     classifier_name = request.GET.get('classifier_name')
     print(callback)
     print(classifier_name)
+=======
+    print(callback)
+>>>>>>> origin/sid_jsonp
     return '{0}({1})'.format(callback, {'a':1, 'b':2})
 
 def jsonp(request, dictionary):
@@ -25,16 +29,19 @@ def jsonp(request, dictionary):
 		return "%s(%s)" % (request.query.callback, dictionary)
 	return dictionary
 
+
 @route('/train', method = 'POST')
 def train():
-    classifier_name = request.forms.get('classifier_name')
-    classifier_type = request.forms.get('classifier_type')
-    classifier_params = request.forms.get('classifier_params')
-    cross_validation_type = request.forms.get('cross_validation_type')
-    train_size = request.forms.get('train_size')
+    callback = request.GET.get('callback')
+    classifier_name = request.GET.get('classifier_name')
+    classifier_type = request.GET.get('classifier_type')
+    classifier_params = request.GET.get('classifier_params')
+    cross_validation_type = request.GET.get('cross_validation_type')
+    collection_id = request.GET.get('collection_id')
+    train_size = request.GET.get('train_size')
     clf = classifier.configure_classifier(classifier_type,classifier_params)
     cv = classifier.configure_cross_validation(cross_validation_type,classifier_params)
-    features_train, labels_train = wtf.getArrays()
+    features_train, labels_train = wtf.getArrays(collection_id)
 
     fig = clf, train_sizes, train_scores, test_scores = classifier.train(clf,
                         train_sizes = np.linspace(.1, 1.0,train_size),
@@ -60,7 +67,7 @@ def train():
     data = test_data_to_send(classifier_name, 0, " ", precision, acc, recall)
     post.send("http://naos-software.com/dataprocessing/rest-api","/result_test_classifier", classifier_name, data)
 
-    return "wolololo"
+    return '{0}({1})'.format(callback, {'a':1, 'b':2})
 
 class EnableCors(object):
     name = 'enable_cors'
@@ -83,9 +90,9 @@ class EnableCors(object):
 
 @route('/test', method = 'POST')
 def test():
-   def test():
-    classifier_name = request.forms.get('classifier_name')
-    classifier_dump = request.forms.get('classifier')
+    callback = request.GET.get('callback')
+    classifier_name = request.GET.get('classifier_name')
+    classifier_dump = request.GET.get('classifier')
     features_train, labels_train = wtf.getArrays()
     clf = pickle.loads(classifier_dump)
     preditions, accuracy, recall, precision = classifier.test(clf = clf, features = features_train, labels = labels_train)
@@ -93,7 +100,7 @@ def test():
     data1 = test_data_to_send(classifier_name, 0, " ", precision, accuracy, recall)
     post.send("http://naos-software.com/dataprocessing/rest-api","/result_test_classifier","",data1)
 
-    return "wolololo"
+    return '{0}({1})'.format(callback, {'a':1, 'b':2})
 
 def classifier_to_send(name, parameter, learningCurve, content, flag):
     data ={
@@ -125,17 +132,6 @@ def test_data_to_send(classifierId, vectoriziedDocumentCollectionId, parameter, 
         "recall" : recall
     }
     return data
-
-def test():
-    classifier_name = request.forms.get('classifier_name')
-    classifier_dump = request.forms.get('classifier')
-    features_train, labels_train = wtf.getArrays()
-    clf = pickle.loads(classifier_dump)
-    preditions, accuracy, recall, precision = classifier.test(clf = clf, features = features_train, labels = labels_train)
-
-
-
-    return data1+data2
 
 app = bottle.app()
 
