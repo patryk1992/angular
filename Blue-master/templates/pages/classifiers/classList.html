@@ -39,7 +39,14 @@
                             <td title="'Precision'" filter="{content: 'text'}" ng-switch="classifierListCtrl.isEditing" sortable="'content'" ng-form="content">
                                 <span>{{result.date}}</span>
                                 
-                            </td>        
+                            </td> 
+                             <td>
+                                <button class="btn btn-default" ng-click="classifierListCtrl.showResults(result)">Show Results
+                                </button>
+                                <br>
+                                <button class="btn btn-default" ng-click="classifierListCtrl.test(result)">Test                            
+                                </button>
+                            </td>       
                             <td>
                                 <button class="btn btn-danger btn-sm" ng-click="classifierListCtrl.del(result)" ng-disabled="!classifierListCtrl.isEditing">
                                     <span class="glyphicon glyphicon-trash"></span>

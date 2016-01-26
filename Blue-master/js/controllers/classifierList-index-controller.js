@@ -31,6 +31,17 @@ angular.module("Blue").controller("ClassifierListController", ["$http", "Base64"
     controller.del = del;
     controller.hasChanges = hasChanges;
     controller.saveChanges = saveChanges;
+    controller.showResults = showResults;
+    controller.test = test;
+
+    function showResults(result) {
+        console.log("tutaj daj wyswietlanie res");
+
+    }
+
+    function test(result) {
+        console.log("tutaj daj testowanie");
+    }
 
     function add() {
         controller.isEditing = true;
