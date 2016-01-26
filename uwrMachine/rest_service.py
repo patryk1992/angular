@@ -15,13 +15,7 @@ from json import dumps, loads
 @route('/hello', method = 'GET')
 def hello():
     callback = request.GET.get('callback')
-<<<<<<< HEAD
-    classifier_name = request.GET.get('classifier_name')
     print(callback)
-    print(classifier_name)
-=======
-    print(callback)
->>>>>>> origin/sid_jsonp
     return '{0}({1})'.format(callback, {'a':1, 'b':2})
 
 def jsonp(request, dictionary):
@@ -39,9 +33,21 @@ def train():
     cross_validation_type = request.GET.get('cross_validation_type')
     collection_id = request.GET.get('collection_id')
     train_size = request.GET.get('train_size')
+    print("Params :")
+    print(classifier_name)
+    print(classifier_type)
+    print(classifier_params)
+    print(cross_validation_type)
+    print(collection_id)
+    print(train_size)
     clf = classifier.configure_classifier(classifier_type,classifier_params)
     cv = classifier.configure_cross_validation(cross_validation_type,classifier_params)
     features_train, labels_train = wtf.getArrays(collection_id)
+
+    print("features_train :")
+    print(len(features_train))
+    print("labels_train :")
+    print(len(labels_train))
 
     fig = clf, train_sizes, train_scores, test_scores = classifier.train(clf,
                         train_sizes = np.linspace(.1, 1.0,train_size),
@@ -56,16 +62,23 @@ def train():
     svg_dta = imgdata.buf  # this is svg data
     import pickle
     s = pickle.dumps(clf)
+    print("classifier dump:")
+    print(s)
     data = classifier_to_send(classifier_name, classifier_params, svg_dta, s, 1)
-    put.send("http://naos-software.com/dataprocessing/rest-api","/classifiers",classifier_name, data)
+    put.send("localhost:8080/dataprocessing/rest-api","/classifiers",classifier_name, data)
     pred = clf.predict(features_train)
     from sklearn.metrics import accuracy_score
     acc = accuracy_score(labels_train, pred)
     precision = precision_score(labels_train, pred)
     recall = recall_score(labels_train, pred)
 
+    print("Test :")
+    print("accuracy" + acc)
+    print("precision" + precision)
+    print("recall" + recall)
+
     data = test_data_to_send(classifier_name, 0, " ", precision, acc, recall)
-    post.send("http://naos-software.com/dataprocessing/rest-api","/result_test_classifier", classifier_name, data)
+    post.send("localhost:8080/dataprocessing/rest-api","/result_test_classifier", classifier_name, data)
 
     return '{0}({1})'.format(callback, {'a':1, 'b':2})
 
@@ -93,12 +106,18 @@ def test():
     callback = request.GET.get('callback')
     classifier_name = request.GET.get('classifier_name')
     classifier_dump = request.GET.get('classifier')
-    features_train, labels_train = wtf.getArrays()
+    collection_id = request.GET.get('collection_id')
+    print("Params :")
+    print(classifier_name)
+    features_train, labels_train = wtf.getArrays(collection_id)
     clf = pickle.loads(classifier_dump)
     preditions, accuracy, recall, precision = classifier.test(clf = clf, features = features_train, labels = labels_train)
-
+    print("Test :")
+    print("accuracy" + accuracy)
+    print("precision" + precision)
+    print("recall" + recall)
     data1 = test_data_to_send(classifier_name, 0, " ", precision, accuracy, recall)
-    post.send("http://naos-software.com/dataprocessing/rest-api","/result_test_classifier","",data1)
+    post.send("localhost:8080/dataprocessing/rest-api","/result_test_classifier","",data1)
 
     return '{0}({1})'.format(callback, {'a':1, 'b':2})
 
@@ -146,3 +165,4 @@ app.install(EnableCors())
 
 
 app.run(host='localhost', port=8082)
+
