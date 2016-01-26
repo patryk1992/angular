@@ -85,7 +85,7 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 		var cross_validation_type = $scope.data.learningCurveAlgorithms[$scope.data.repeatSelectLCurve].algName;
 		var train_size = $scope.train_size;
 		
-		$http.jsonp("http://localhost:8082/hello?callback=JSON_CALLBACK",
+		$http.jsonp("http://localhost:8082/train?callback=JSON_CALLBACK",
 		{params : 
 			{
 				'classifier_name' : classifier_name,
@@ -104,10 +104,10 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 	$scope.startTest = function()
 	{
 		
-		$http.jsonp("http://localhost:8082/hello?callback=JSON_CALLBACK",
+		$http.jsonp("http://localhost:8082/train?callback=JSON_CALLBACK",
 		{params : 
 			{
-				'collection_id': collection.idDocumentCollection,
+				'collection_id' : collection.idDocumentCollection,
 				'classifier_id' : $routeParams.classifier_id,
 			}
 		}
