@@ -23,7 +23,7 @@ $routeProvider.when('/',{
         controller:'ResultIndexController',
         controllerAs:'resultIndexCtrl'
         })
-		.when('/classifiers',{
+		.when('/classifiers/:collection_id',{
         templateUrl: 'templates/pages/classifiers/index.html',
         controller:'ClassifierController',
         controllerAs:'classifierCtrl'

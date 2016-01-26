@@ -15,7 +15,13 @@ from json import dumps, loads
 @route('/hello', method = 'GET')
 def hello():
     callback = request.GET.get('callback')
+<<<<<<< HEAD
+    classifier_name = request.GET.get('classifier_name')
     print(callback)
+    print(classifier_name)
+=======
+    print(callback)
+>>>>>>> origin/sid_jsonp
     return '{0}({1})'.format(callback, {'a':1, 'b':2})
 
 def jsonp(request, dictionary):
