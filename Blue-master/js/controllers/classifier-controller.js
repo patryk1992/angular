@@ -1,4 +1,29 @@
 angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$routeParams',  function($http, $scope, $routeParams) {
+	var controller = this;
+    var items;
+
+    $http({
+        method: 'GET',
+        url: '/dataprocessing/rest-api/documentCollections',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }).success(function(data) {
+        controller.results = data._embedded.documentCollections;
+        originalData = angular.copy(controller.results);
+        $scope.items = controller.results;
+        });
+
+    $scope.setCollection = function(item){
+        $scope.collection = item;
+        //paramService.addProduct(item.idDocumentCollection);
+
+    }
+
+    $scope.isSelected = function(item) {
+    return $scope.collection === item;
+	}
+	
 	$scope.data = {
 	repeatSelect: null,
     algorithms : 
@@ -76,6 +101,20 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
             console.log(json); });
 	};
 
+	$scope.startTest = function()
+	{
+		
+		$http.jsonp("http://localhost:8082/hello?callback=JSON_CALLBACK",
+		{params : 
+			{
+				'collection_id': collection.idDocumentCollection,
+				'classifier_id' : $routeParams.classifier_id,
+			}
+		}
+		).then(function(json) {
+            console.log(json); });
+	};
+	
 	
     }]);
 		

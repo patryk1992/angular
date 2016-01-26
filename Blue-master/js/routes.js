@@ -52,5 +52,10 @@ $routeProvider.when('/',{
         templateUrl: 'templates/pages/newDocs/index.html',
         controller:'addDocumentController',
         controllerAs:'addDocumentCtrl'
+        })
+		.when('/testClassifier/:classifier_id',{
+        templateUrl: 'templates/pages/classifiers/testClassifier.html',
+        controller:'ClassifierController',
+        controllerAs:'classifierCtrl'
         });
 });
