@@ -48,10 +48,10 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
                     }).success(function(data) {
                         controller.documentCollections = data._embedded.documentCollections;
 
-                        for (key in controller.results) {
-                           controller.results[key].classifierName=getClassifierName( controller.results[key].classifierId);
-                           controller.results[key].documentCollectionName=getDocumentCollectionName( controller.results[key].vectoriziedDocumentCollectionId);
-                        }
+                        // for (key in controller.results) {
+                        //    controller.results[key].classifierName=getClassifierName( controller.results[key].classifierId);
+                        //    controller.results[key].documentCollectionName=getDocumentCollectionName( controller.results[key].vectoriziedDocumentCollectionId);
+                        // }
                         controller.tableParams = new ngTableParams({
                             count: 10
                         }, {
