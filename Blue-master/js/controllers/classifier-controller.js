@@ -1,6 +1,7 @@
 angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$routeParams', 'Base64',  function($http, $scope, $routeParams, Base64) {
 	var controller = this;
-    var items;
+    var collectionItems;
+	var vectorizedDocumentItems;
 
     $http({
         method: 'GET',
@@ -9,20 +10,46 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
             'Content-Type': 'application/json',
         }
     }).success(function(data) {
-        controller.results = data._embedded.documentCollections;
-        originalData = angular.copy(controller.results);
-        $scope.items = controller.results;
+        controller.collectionResults = data._embedded.documentCollections;
+        originalData = angular.copy(controller.collectionResults);
+        $scope.collectionItems = controller.collectionResults;
         });
-
-    $scope.setCollection = function(item){
-        $scope.collection = item;
+		
+	$scope.setCollection = function(item){
+        $scope.documentCollection = item;
         //paramService.addProduct(item.idDocumentCollection);
 
     }
 
     $scope.isSelected = function(item) {
-    return $scope.collection === item;
+    return $scope.documentCollection === item;
 	}
+	
+	
+	$http({
+        method: 'GET',
+        url: 'http://www.naos-software.com/dataprocessing/rest-api/vectorizedDocumentCollections/search/findAllByDocumentCollectionId?documentCollectionId='+$routeParams.collection_id,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    }).success(function(data) {
+        controller.vectorizedDocumentResult = data._embedded.vectorizedDocumentCollections;
+        vectorizedDocumentOriginalData = angular.copy(controller.vectorizedDocumentResult);
+        $scope.vectorizedDocumentItems = controller.vectorizedDocumentResult;
+		$scope.vectorizedDocumentCollection = $scope.vectorizedDocumentItems[0];
+        });
+
+    $scope.setVectorizedDocumentCollection = function(item){
+        $scope.vectorizedDocumentCollection = item;
+        //paramService.addProduct(item.idDocumentCollection);
+    }
+	
+	$scope.isVectorizedDocumentSelected = function(item) {
+    return $scope.vectorizedDocumentCollection === item;
+	}
+	
+	
 	
 	$scope.data = {
 	repeatSelect: null,
@@ -95,7 +122,7 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 			data:
 			{
 				'userId' : 1,
-				'vectorizedDocumentCollectionId' : $routeParams.collection_id,
+				'vectorizedDocumentCollectionId' : $scope.vectorizedDocumentCollection.idVectorizedDocumentCollection,
 				'date' : Date.now(),
 				'name' : classifier_name,
 				'parameter' : JSON.stringify(params),
