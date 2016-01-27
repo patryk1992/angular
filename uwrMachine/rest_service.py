@@ -8,6 +8,7 @@ import pickle
 import PUT as put
 import json
 import random
+import time
 from io import StringIO
 from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
@@ -69,14 +70,18 @@ def jsonp(request, dictionary):
 def train():
     callback = request.GET.get('callback')
     classifier_name = request.GET.get('classifier_name')
+    classifier_id = request.GET.get('classifier_id')
+    user_id = request.GET.get('user_id')
     classifier_type = request.GET.get('classifier_type')
     classifier_params = request.GET.get('classifier_params')
     cross_validation_type = request.GET.get('cross_validation_type')
     cross_validation_params = request.GET.get('cross_validation_params')
+    result_test_classifiers_id = request.GET.get('result_test_classifiers_id')
     collection_id = request.GET.get('collection_id')
+    vectorized_document_collection_id = request.GET.get('vectorized_document_collection_id')
     train_size = request.GET.get('train_size')
-    data = classifier_to_send(classifier_name, classifier_params, "", "", 1)
-    post.send("http://localhost:8080/dataprocessing/rest-api/classifiers/",data)
+    #data = classifier_to_send(user_id, classifier_name, classifier_params, "", "", 1)
+    #post.send("http://localhost:8080/dataprocessing/rest-api/classifiers/",data)
     print("Params :")
     print(classifier_name)
     print(classifier_type)
@@ -115,21 +120,18 @@ def train():
     s = pickle.dumps(clf)
     print("classifier dump:")
     #print(s)
-    data = classifier_to_send(classifier_name, classifier_params, svg_dta, s, 1)
-    put.send("http://localhost:8080/dataprocessing/rest-api/classifiers/",classifier_name, data)
+    data = classifier_to_send(user_id = user_id, name = classifier_name, vectorizedDocumentCollectionId= vectorized_document_collection_id, parameter = classifier_params, learningCurve = svg_dta, content = s, flag = 1)
+    put.send("http://localhost:8080/dataprocessing/rest-api/classifiers/",classifier_id, data)
     pred = clf.predict(features_train)
     from sklearn.metrics import accuracy_score
     acc = accuracy_score(labels_train, pred)
     precision = precision_score(labels_train, pred)
     recall = recall_score(labels_train, pred)
 
-    #print("Test :")
-    #print("accuracy" + acc)
-    #print("precision" + precision)
-    #print("recall" + recall)
-
-    data = test_data_to_send(classifier_name, 0, " ", precision, acc, recall)
-    post.send("http://localhost:8080/dataprocessing/rest-api/result_test_classifier", data)
+    print("Test :")
+    print(data["vectorizedDocumentCollectionId"])
+    data = test_data_to_send(id_result_test_classifier = result_test_classifiers_id, user_id = user_id, classifierId = classifier_id, vectorizedDocumentCollectionId = vectorized_document_collection_id, parameter = " ", precision = precision, accuracy = acc, recall = recall)
+    put.send("http://localhost:8080/dataprocessing/rest-api/result_test_classifier/", result_test_classifiers_id,  data)
 
     return '{0}({1})'.format(callback, {'a':1, 'b':2})
 
@@ -167,14 +169,17 @@ def test():
     print("accuracy" + accuracy)
     print("precision" + precision)
     print("recall" + recall)
-    data1 = test_data_to_send(classifier_name, 0, " ", precision, accuracy, recall)
+    data1 = test_data_to_send(classifier_id, 0, " ", precision, accuracy, recall)
     post.send("http://localhost:8080/dataprocessing/rest-api","/result_test_classifier","",data1)
 
     return '{0}({1})'.format(callback, {'a':1, 'b':2})
 
-def classifier_to_send(name, parameter, learningCurve, content, flag):
+def classifier_to_send(user_id, name, vectorizedDocumentCollectionId, parameter, learningCurve, content, flag):
     data ={
+	    "userId": user_id,
         "name" : name,
+		"vectorizedDocumentCollectionId" : vectorizedDocumentCollectionId,
+		"date":  int(time.time()),
         "parameter" : parameter,
         "learningCurve" : learningCurve,
         "content" : str(content),
@@ -192,10 +197,12 @@ def preds_to_send(questionId, documentId, value, range):
     }
     return data
 
-def test_data_to_send(classifierId, vectoriziedDocumentCollectionId, parameter, precision, accuracy, recall):
+def test_data_to_send(id_result_test_classifier, user_id, classifierId, vectorizedDocumentCollectionId, parameter, precision, accuracy, recall):
     data ={
+	    "idResultTestClassifier" : id_result_test_classifier,
+	    "userId" : user_id,
         "classifierId" : classifierId,
-        "vectoriziedDocumentCollectionId" : vectoriziedDocumentCollectionId,
+        "vectorizedDocumentCollectionId" : vectorizedDocumentCollectionId,
         "parameter" : parameter,
         "precision" : precision,
         "accuracy" : accuracy,
