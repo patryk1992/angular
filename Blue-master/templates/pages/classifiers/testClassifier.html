@@ -3,49 +3,30 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="page-header">
-                    <h2 id="forms">Add new document</h2>
+                    <h2 id="forms">Test classifier</h2>
                 </div>
             </div>
         </div>
         </p>
         <div class="row">
             <div class="col-lg-12">
-                <div class="well">
-                    <form class="bs-example form-horizontal">
-                        <fieldset>
-                            <div class="form-group">
-                                <div ng-controller="addDocumentController">
-                                    <label for="usr">Nazwa:</label>
-                                    <input type="text" class="form-control" ng-model="user.name">
-                                    <label for="comment">Treść:</label>
-                                    <textarea class="form-control" rows="5" ng-model="user.content"></textarea>
-
-                                    <br>         
-                                    <br>
-                                    <button ng-click="sendJsonFile()">Create and send file</button>
-
-                                </div>
-                        </fieldset>
-                    </form>
-                    </div>
-                </div>
-                <br>
      
-                <!--    <div class="dropdown dropdown-scroll" ng-app="app" ng-controller="addDocumentController">
+                    <div class="dropdown dropdown-scroll" ng-app="app" ng-controller="ClassifierController">
                     
-                        Collection ID: {{collection.idDocumentCollection}}
+                        Collection ID: {{collectionItems.idDocumentCollection}}
                         <br>
-                        Collection name: {{collection.name}}
+                        Collection name: {{collectionItems.name}}
                         <br>
                          <br>
-                
+						<div class="col-lg-12">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Select <span class="caret"></span>
                         </button>
+						
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" >
                             <li role="presentation">
                                 <div class="input-group input-group-sm search-control"> <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-search"></span>
-                    </span>
+									</span>
                                     <input type="text" class="form-control" placeholder="Query" ng-model="query"></input>
                                 </div>
                             </li>
@@ -55,12 +36,12 @@
 
                         </ul>
                         <br>
+						</div>
                     
-                    </div> -->
+                    </div> 
                     <br>
-                  <div ng-controller = "myCtrl">
-                        <input type="file" file-model="myFile"/>
-                        <button ng-click="uploadFile()">Send file</button>
+                  <div ng-controller = "ClassifierController">
+                        <button ng-click="startTest()">Start test</button>
                   </div>
                  
                 

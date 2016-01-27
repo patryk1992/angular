@@ -1,12 +1,13 @@
-angular.module("Blue").controller("ClassifierListController", ["$http", "Base64", "ngTableParams", "$cookieStore", function($http, Base64, ngTableParams, $cookieStore) {
+angular.module("Blue").controller("DocumentsCollectionsController", ["$http", "Base64", "ngTableParams", "$cookieStore", "$location", function($http, Base64, ngTableParams, $cookieStore, $location) {
     var controller = this;
     var originalData;
     var globals = $cookieStore.get('globals');
+    var docsLists;
     // $http.defaults.headers.common['Authorization'] = 'Basic YWRtaW46YWRtaW4=';
     // $http.defaults.withCredentials = true;
     $http({
         method: 'GET',
-        url: '/dataprocessing/rest-api/classifiers',        
+        url: '/dataprocessing/rest-api/documentCollections',        
         headers: {
             'Content-Type': 'application/json',
             // 'params': {
@@ -15,7 +16,7 @@ angular.module("Blue").controller("ClassifierListController", ["$http", "Base64"
             // }
         }
     }).success(function(data) {
-        controller.results = data._embedded.classifiers;
+        controller.results = data._embedded.documentCollections;
         originalData = angular.copy(controller.results);
         controller.tableParams = new ngTableParams({
             count: 10
@@ -31,17 +32,7 @@ angular.module("Blue").controller("ClassifierListController", ["$http", "Base64"
     controller.del = del;
     controller.hasChanges = hasChanges;
     controller.saveChanges = saveChanges;
-    controller.showResults = showResults;
-    controller.test = test;
-
-    function showResults(result) {
-        console.log("tutaj daj wyswietlanie res");
-
-    }
-
-    function test(result) {
-        console.log("tutaj daj testowanie");
-    }
+    controller.docsList = docsList;
 
     function add() {
         controller.isEditing = true;
@@ -69,6 +60,33 @@ angular.module("Blue").controller("ClassifierListController", ["$http", "Base64"
         if (!controller.isAdding) {
             controller.tableParams.page(currentPage);
         }
+    }
+
+    function docsList(res) {
+        $location.path('/documentsDetails/'+res.idDocumentCollection);
+/*
+        var docsId = res.idDocumentCollection;
+
+        $http({
+        method: 'GET',
+        url: '/dataprocessing/rest-api/documentCollections/'+docsId+'/documents',        
+        headers: {
+            'Content-Type': 'application/json',
+            // 'params': {
+            //     'wt': 'json',
+            //     'q': '*:*'
+            // }
+        }
+    }).success(function(data) {
+        docsLists = data._embedded.documents;
+        controller.tableParams = new ngTableParams({
+            count: 10
+        }, {
+            dataset: docsLists
+        });
+    });
+*/
+
     }
 
     function del(row) {

@@ -23,7 +23,7 @@ $routeProvider.when('/',{
         controller:'ResultIndexController',
         controllerAs:'resultIndexCtrl'
         })
-		.when('/classifiers',{
+		.when('/classifiers/:collection_id',{
         templateUrl: 'templates/pages/classifiers/index.html',
         controller:'ClassifierController',
         controllerAs:'classifierCtrl'
@@ -52,5 +52,10 @@ $routeProvider.when('/',{
         templateUrl: 'templates/pages/newDocs/index.html',
         controller:'addDocumentController',
         controllerAs:'addDocumentCtrl'
+        })
+		.when('/testClassifier/:classifier_id',{
+        templateUrl: 'templates/pages/classifiers/testClassifier.html',
+        controller:'ClassifierController',
+        controllerAs:'classifierCtrl'
         });
 });

@@ -27,11 +27,39 @@
 				</div>
 				<div class="form-group">
 				  <label for="classifierNameId" class="col-lg-2 control-label">Name</label>
-				  <div class="col-lg-2">
+				  <div class="col-lg-8">
 				    <input type="text" ng-model="classifierName" class="form-control" id="classifierNameId" ng-init="classifierName=''">
 				    <span class="help-block">(string) Classifier name</span>
 				  </div>
 			  </div>
+			  <div class="form-group">
+				<div class="dropdown dropdown-scroll">
+                    
+                        <label class="col-lg-2 control-label"> Vectorized Collection ID: {{vectorizedDocumentCollection.idVectorizedDocumentCollection}}</label>
+                        <br>
+						<label class="col-lg-2 control-label"> Algorithm Id: {{vectorizedDocumentCollection.algorithmId}}</label>
+						<div class="col-lg-12">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Select <span class="caret"></span>
+                        </button>
+						
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" >
+                            <li role="presentation">
+                                <div class="input-group input-group-sm search-control"> <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-search"></span>
+									</span>
+                                    <input type="text" class="form-control" placeholder="Query" ng-model="query"></input>
+                                </div>
+                            </li>
+                            <li role="presentation" ng-repeat='item in vectorizedDocumentItems | filter:query' ng-class="{active : isVectorizedDocumentSelected(item)}"> 
+                              <a ng-click="setVectorizedDocumentCollection(item)"> {{item.idVectorizedDocumentCollection}}</a>
+                            </li>
+
+                        </ul>
+                        <br>
+						</div>
+                    
+                    </div>
+				</div>	
 			</fieldset>
           </form>
         </div>
@@ -57,7 +85,7 @@
               <div class="form-group">
                 <label for="inputParamC" class="col-lg-2 control-label">C</label>
                 <div class="col-lg-10">
-                  <input type="text" ng-model="fields[0].c" class="form-control" ng-init="fields[0].c='1.0'">
+                  <input type="text" ng-model="fields[0].C" class="form-control" ng-init="fields[0].C='1.0'">
 				  <span class="help-block">(float) Penalty parameter C of the error term.</span>
                 </div>
               </div>
@@ -119,19 +147,19 @@
 			   <div class="form-group">
                 <label for="inputParamCacheSize" class="col-lg-2 control-label">cache_size</label>
                 <div class="col-lg-10">
-                  <input type="text" ng-model="fields[0].cache_size" class="form-control" id="inputParamCacheSize" ng-init="fields[0].cache_size=''">
+                  <input type="text" ng-model="fields[0].cache_size" class="form-control" id="inputParamCacheSize" ng-init="fields[0].cache_size='200'">
 				  <span class="help-block">(float) Specify the size of the kernel cache (in MB).</span>
                 </div>
               </div>
 			  <div class="form-group">
-                <label for="inputParamClassWeight " class="col-lg-2 control-label">class_weight </label>
+                <label for="inputParamClassWeight " class="col-lg-2 control-label">class_weight</label>
                 <div class="col-lg-10">
                   <input type="text" ng-model="fields[0].class_weight" class="form-control" id="inputParamClassWeight" ng-init="fields[0].class_weight='balanced'">
 				  <span class="help-block">(dict, &#39;balanced&#39;) Set the parameter C of class i to class_weight[i]*C for SVC. If not given, all classes are supposed to have weight one. The &#39;balanced&#39; mode uses the ng-init=s of y to automatically adjust weights inversely proportional to class frequencies in the input data as n_samples / (n_classes * np.bincount(y)).</span>
                 </div>
               </div>
 			  <div class="form-group">
-                <label for="inputParamVerbose " class="col-lg-2 control-label">verbose </label>
+                <label for="inputParamVerbose " class="col-lg-2 control-label">verbose</label>
                 <div class="col-lg-10">
                   <input type="checkbox" ng-model="fields[0].verbose" id="inputParamVerbose" ng-init="fields[0].verbose=true"> Enable verbose output.
 				  <span class="help-block">(boolean) Note that this setting takes advantage of a per-process runtime setting in libsvm that, if enabled, may not work properly in a multithreaded context.</span>
@@ -290,14 +318,14 @@
 			  <div class="form-group">
 				<label for="inputRandomState" class="col-lg-2 control-label">random_state</label>
 				<div class="col-lg-10">
-				  <input type="text" ng-model="fields[2].class_weight" ng-model="fields[2].class_weight=''" class="form-control" id="inputRandomState">
+				  <input type="text" ng-model="fields[2].random_state" ng-init="fields[2].random_state=''" class="form-control" id="inputRandomState">
 				  <span class="help-block">(int, &#39;RandomState&#39; or None) If int, random_state is the seed used by the random number generator; If &#39;RandomState&#39;, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random.</span>
 				</div>
 			  </div>
 			  <div class="form-group">
-                <label for="inputClassWeight " class="col-lg-2 control-label">class_weight </label>
+                <label for="inputClassWeight " class="col-lg-2 control-label">class_weight</label>
                 <div class="col-lg-10">
-                  <input type="text" ng-model="fields[2].random_state" ng-model="fields[2].random_state=''" class="form-control" id="inputClassWeight">
+                  <input type="text" ng-model="fields[2].class_weight" ng-init="fields[2].class_weight=''" class="form-control" id="inputClassWeight">
 				  <span class="help-block">(dict, list of dicts, &#39;balanced&#39; or None) Weights associated with classes in the form {class_label: weight}. If not given, all classes are supposed to have weight one. For multi-output problems, a list of dicts can be provided in the same order as the columns of y. 
 				  The &#39;balanced&#39; mode uses the ng-init=s of y to automatically adjust weights inversely proportional to class frequencies in the input data as n_samples / (n_classes * np.bincount(y)).
 				  For multi-output, the weights of each column of y will be multiplied. Note that these weights will be multiplied with sample_weight (passed through the fit method) if sample_weight is specified.</span>
@@ -306,7 +334,7 @@
 			  <div class="form-group">
                 <label for="inputPresort" class="col-lg-2 control-label">presort</label>
                 <div class="col-lg-10">
-                  <input type="checkbox" ng-model="fields[2].presort" ng-model="fields[2].presort=''" id="inputPresort"> Whether to presort the data to speed up the finding of best splits in fitting.
+                  <input type="checkbox" ng-model="fields[2].presort" ng-init="fields[2].presort=false" id="inputPresort"> Whether to presort the data to speed up the finding of best splits in fitting.
 				  <span class="help-block">(boolean) For the default settings of a decision tree on large datasets, setting this to true may slow down the training process. When using either a smaller dataset or a restricted depth, this may speed up the training.</span>
                 </div>
               </div>
@@ -344,7 +372,21 @@
 								<p >&emsp; {{option.note}}</p>
 								</p>
 						</ul>
+						
 				</div>
+				<div class="form-group">
+				<label for="inputTrainSize" class="col-lg-2 control-label">train_size</label>
+				<div class="col-lg-10">
+				  <input type="text" ng-model="train_size" ng-init="train_size='5'" class="form-control" id="inputTrainSize">
+				  <span class="help-block">(int) 
+					Absolute numbers of training examples that will be used to
+					generate the learning curve. It is interpreted as absolute sizes of the training sets.
+					Note that for classification the number of samples usually have to
+					be big enough to contain at least one sample from each class.
+
+				  </span>
+				</div>
+			  </div>
 				
 			</fieldset>
           </form>
@@ -392,6 +434,7 @@
 				  <span class="help-block">(None, int or &#39;RandomState&#39;) When shuffle=True, pseudo-random number generator state used for shuffling. If None, use default numpy RNG for shuffling.</span>
 				</div>
 			  </div>
+			  
             </fieldset>
           </form>
         </div>
@@ -435,22 +478,11 @@
 				  </ul></span>
 				</div>
 			  </div>
-			  <div class="form-group">
-				<label for="inputTrainSize" class="col-lg-2 control-label">train_size</label>
-				<div class="col-lg-10">
-				  <input type="text" ng-model="lcfields[2].train_size" ng-init="lcfields[2].train_size=''" class="form-control" id="inputTrainSize">
-				  <span class="help-block">(float, int, or None) 
-				  <ul>
-					<li>If float, should be between 0.0 and 1.0 and represent the proportion of the dataset to include in the train split. </li>
-					<li>If int, represents the absolute number of train samples. </li>
-					<li>If None, the ng-init= is automatically set to the complement of the test size.</li>
-				  </ul></span>
-				</div>
-			  </div>
+			  
 			  <div class="form-group">
 				<label for="inputRandomState" class="col-lg-2 control-label">random_state</label>
 				<div class="col-lg-10">
-				  <input type="text" ng-model="lcfields[2].random_state" ng-init="lcfields[2].random_state=''" class="form-control" id="inputRandomState">
+				  <input type="text" ng-model="lcfields[2].random_state" ng-init="lcfields[2].random_state='RandomState'" class="form-control" id="inputRandomState">
 				  <span class="help-block">(int or &#39;RandomState&#39;) Pseudo-random number generator state used for random sampling.</span>
 				</div>
 			  </div>

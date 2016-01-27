@@ -33,6 +33,7 @@ angular.module("Blue").controller("DocumentsIndexController", ["$http", "Base64"
     controller.hasChanges = hasChanges;
     controller.saveChanges = saveChanges;
     controller.docsList = docsList;
+    controller.goToClass = goToClass;
 
     function add() {
         controller.isEditing = true;
@@ -87,6 +88,12 @@ angular.module("Blue").controller("DocumentsIndexController", ["$http", "Base64"
     });
 */
 
+
+
+    }
+
+    function goToClass(res) {
+      $location.path('/classifiers/'+res.idDocumentCollection);
     }
 
     function del(row) {
