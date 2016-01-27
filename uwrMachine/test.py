@@ -1,5 +1,5 @@
-import Connection.POST as post
-import Connection.PUT as put
+import POST as post
+import PUT as put
 
 def classfier_to_send(learningCurve, content, flag):
     data ={
@@ -32,10 +32,10 @@ def test_data_to_send(classifierId, vectoriziedDocumentCollectionId, parameter, 
 
 
 data1 = test_data_to_send(1, 1, 1)
-post.send("http://naos-software.com/dataprocessing/rest-api/resultTestClassifiers",data1)
+post.send("http://localhost:8080/dataprocessing/rest-api/resultTestClassifiers",data1)
 
 data2 = preds_to_send(2, 2, -5, 5)
-post.send("http://naos-software.com/dataprocessing/rest-api/annotations",data2)
+post.send("http://localhost:8080/dataprocessing/rest-api/annotations",data2)
 
 data3 = classfier_to_send(2, 2, 1)
-put.send("http://naos-software.com/dataprocessing/rest-api/classifiers/",id,data3)
+put.send("http://localhost:8080/dataprocessing/rest-api/classifiers/",id,data3)

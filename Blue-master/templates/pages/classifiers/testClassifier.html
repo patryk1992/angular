@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="bs-docs-section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h2 id="forms">Test classifier</h2>
+                </div>
+            </div>
+        </div>
+        </p>
+        <div class="row">
+            <div class="col-lg-12">
+     
+                    <div class="dropdown dropdown-scroll" ng-app="app" ng-controller="ClassifierController">
+                    
+                        Collection ID: {{collectionItems.idDocumentCollection}}
+                        <br>
+                        Collection name: {{collectionItems.name}}
+                        <br>
+                         <br>
+						<div class="col-lg-12">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Select <span class="caret"></span>
+                        </button>
+						
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" >
+                            <li role="presentation">
+                                <div class="input-group input-group-sm search-control"> <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-search"></span>
+									</span>
+                                    <input type="text" class="form-control" placeholder="Query" ng-model="query"></input>
+                                </div>
+                            </li>
+                            <li role="presentation" ng-repeat='item in items | filter:query' ng-class="{active : isSelected(item)}"> 
+                              <a ng-click="setCollection(item)"> {{item.name}}</a>
+                            </li>
+
+                        </ul>
+                        <br>
+						</div>
+                    
+                    </div> 
+                    <br>
+                  <div ng-controller = "ClassifierController">
+                        <button ng-click="startTest()">Start test</button>
+                  </div>
+                 
+                
+            </div>
+        </div>
+    </div>

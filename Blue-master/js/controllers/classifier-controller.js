@@ -1,4 +1,56 @@
-angular.module("Blue").controller("ClassifierController",['$http', '$scope', function($http, $scope) {
+angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$routeParams', 'Base64',  function($http, $scope, $routeParams, Base64) {
+	var controller = this;
+    var collectionItems;
+	var vectorizedDocumentItems;
+
+    $http({
+        method: 'GET',
+        url: '/dataprocessing/rest-api/documentCollections',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }).success(function(data) {
+        controller.collectionResults = data._embedded.documentCollections;
+        originalData = angular.copy(controller.collectionResults);
+        $scope.collectionItems = controller.collectionResults;
+        });
+		
+	$scope.setCollection = function(item){
+        $scope.documentCollection = item;
+        //paramService.addProduct(item.idDocumentCollection);
+
+    }
+
+    $scope.isSelected = function(item) {
+    return $scope.documentCollection === item;
+	}
+	
+	
+	$http({
+        method: 'GET',
+        url: 'http://www.naos-software.com/dataprocessing/rest-api/vectorizedDocumentCollections/search/findAllByDocumentCollectionId?documentCollectionId='+$routeParams.collection_id,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    }).success(function(data) {
+        controller.vectorizedDocumentResult = data._embedded.vectorizedDocumentCollections;
+        vectorizedDocumentOriginalData = angular.copy(controller.vectorizedDocumentResult);
+        $scope.vectorizedDocumentItems = controller.vectorizedDocumentResult;
+		$scope.vectorizedDocumentCollection = $scope.vectorizedDocumentItems[0];
+        });
+
+    $scope.setVectorizedDocumentCollection = function(item){
+        $scope.vectorizedDocumentCollection = item;
+        //paramService.addProduct(item.idDocumentCollection);
+    }
+	
+	$scope.isVectorizedDocumentSelected = function(item) {
+    return $scope.vectorizedDocumentCollection === item;
+	}
+	
+	
+	
 	$scope.data = {
 	repeatSelect: null,
     algorithms : 
@@ -52,30 +104,73 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', fun
 
 	$scope.addNewClassifier = function()
 	{
+		
 		var params = $scope.fields[$scope.data.repeatSelect];
 		var lcparams = $scope.lcfields[$scope.data.repeatSelectLCurve];
 		var classifier_name = $scope.classifierName;
 		var classifier_type = $scope.data.algorithms[$scope.data.repeatSelect].algName;
 		var cross_validation_type = $scope.data.learningCurveAlgorithms[$scope.data.repeatSelectLCurve].algName;
-		$http({method: 'POST', 
-				url: '/dataprocessing/rest-api/', 	
-				data: {
+		var train_size = $scope.train_size;
+
+		$http({
+			method: 'POST',
+			url: '/dataprocessing/rest-api/classifiers',
+			headers: {
+				'Authorization': 'Basic ' + Base64.encode('admin:admin'),
+				'Content-Type': 'application/json',
+			},
+			data:
+			{
+				'userId' : 1,
+				'vectorizedDocumentCollectionId' : $scope.vectorizedDocumentCollection.idVectorizedDocumentCollection,
+				'date' : Date.now(),
+				'name' : classifier_name,
+				'parameter' : JSON.stringify(params),
+				'learningCurve' : 'todo',
+				'content' : 'todo',
+				'flag' : 0
+			}
+		}).success(function(json) {
+			console.log(json);
+			$http.jsonp("http://localhost:8082/train?callback=JSON_CALLBACK",
+			{params : 
+				{
 					'classifier_name' : classifier_name,
 					'classifier_type' : classifier_type,
 					'classifier_params' : params,
 					'cross_validation_type' : cross_validation_type,
 					'cross_validation_params' : lcparams,
-					'collection_id' : 2,
-					},
-				headers: {               
-					'Content-Type': 'application/json'      
+					'collection_id' : $routeParams.collection_id,
+					'train_size' : train_size,
 				}
-				}).success(function(data){
-					var params = "";
-				}).error(function(data){
-					//$window.alert(JSON.stringify(data));
-            	});
+			}
+			).then(function(json) {
+				console.log(json); });
+         });
+		 
+		 
+		 
+
+
+	
+	
+		
 	};
+
+	$scope.startTest = function()
+	{
+		
+		$http.jsonp("http://localhost:8082/train?callback=JSON_CALLBACK",
+		{params : 
+			{
+				'collection_id' : collection.idDocumentCollection,
+				'classifier_id' : $routeParams.classifier_id,
+			}
+		}
+		).then(function(json) {
+            console.log(json); });
+	};
+	
 	
     }]);
 		
