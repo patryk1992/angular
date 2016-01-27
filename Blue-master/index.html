@@ -94,7 +94,6 @@
         <div class="container">
             <div class="nav navbar-nav" ng-controller="LoginIndexController as logOUT">
                 <li class="active" ng-if="logOUT.checkRole()"><a href="#/users" class="list-item" ng-click="selected = 'users'" ng-class="{'active': selected == 'users'}"> Users </a> </li>
-                <li class="active" ><a href="#/classifiers" class="list-item" ng-click="selected = 'classifiers'" ng-class="{'active': selected == 'classifiers'}"> Classifiers </a></li>
                 <li class="active" ng-if="logOUT.checkRole()"><a href="#/result" class="list-item" ng-click="selected = 'result'" ng-class="{'active': selected == 'result'}"> Results </a></li>
                 <li class="active" ng-if="logOUT.checkRole()"><a href="#/documents" class="list-item" ng-click="selected = 'documents'" ng-class="{'active': selected == 'documents'}"> Collections</a></li>
                 <li class="active" ng-if="logOUT.checkRole()"><a href="#/classList" class="list-item" ng-click="selected = 'classList'" ng-class="{'active': selected == 'classList'}"> Classifiers List </a></li>
