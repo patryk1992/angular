@@ -90,7 +90,7 @@ angular.module("Blue").controller("ClassifierListController", ["$http", "Base64"
         });
 
         controller.tableParams.reload()
-
+        console.log(controller.deletedresults);
     }
 
     function hasChanges() {
@@ -106,19 +106,30 @@ angular.module("Blue").controller("ClassifierListController", ["$http", "Base64"
     }
 
     function saveChanges() {
-        resetTableStatus();
-        var currentPage = controller.tableParams.page();       
 
+        console.log("funkcja saveChanges");
+        var globals = $cookieStore.get('globals');
+        resetTableStatus();
+        var currentPage = controller.tableParams.page();
+        //zmiania użytkownika
+        var changedUsers = [];
+        var tableDataset = controller.tableParams.settings().dataset;
+        console.log("przed petlami " + controller.deletedresults);
+        
+        originalData = angular.copy(controller.tableParams.settings().dataset);
+        console.log("lista");
         // usuniecie użytkowników
         for (key in controller.deletedresults) {
+            console.log(controller.deletedresults[key]);
             $http({
-                method: 'GET',
-                url: '/solr/collection1/update?stream.body=<delete><query>id:' + controller.deletedresults[key].id+'</query> </delete>&commit=true',
+                method: 'DELETE',
+                url: '/dataprocessing/rest-api/classifiers/' + controller.deletedresults[key].idClassifier,
                 headers: {
-                    // 'Authorization': 'Basic '+Base64.encode('admin:admin'),
+                    'Authorization': 'Basic '+ globals.currentUser.authdata,
                     'Content-Type': 'application/json'
                 }
             }).success(function(data) {
+                console.log("usunieto");
                 var tmp = data;
 
             });

@@ -24,20 +24,24 @@
                                 <span >{{result.idClassifier}}</span>
                                 
                             </td>
-                            <td title="'Document collection'" filter="{content: 'text'}" ng-switch="classifierListCtrl.isEditing" sortable="'content'" ng-form="content">
+                            <td title="'Vectorized document ID'" filter="{content: 'text'}" ng-switch="classifierListCtrl.isEditing" sortable="'content'" ng-form="vectorized">
+                                <span>{{result.vectorizedDocumentCollectionId}}</span>
+                                
+                            </td>
+                            <td title="'Name'" filter="{name: 'text'}" ng-switch="classifierListCtrl.isEditing" sortable="'content'" ng-form="name">
                                 <span>{{result.name}}</span>
                                 
                             </td>
-                            <td title="'Classifier'" filter="{content: 'text'}" ng-switch="classifierListCtrl.isEditing" sortable="'content'" ng-form="content">
+                            <td title="'Date'" filter="{date: 'text'}" ng-switch="classifierListCtrl.isEditing" sortable="'content'" ng-form="date">
+                                <span>{{result.date}}</span>
+                                
+                            </td>
+                            <td title="'Parameter'" filter="{parameter: 'text'}" ng-switch="classifierListCtrl.isEditing" sortable="'content'" ng-form="parameter">
                                 <span>{{result.parameter}}</span>
                                 
-                            </td>
-                            <td title="'Parameter'" filter="{content: 'text'}" ng-switch="classifierListCtrl.isEditing" sortable="'content'" ng-form="content">
-                                <span>{{result.content}}</span>
-                                
-                            </td>
-                            <td title="'Precision'" filter="{content: 'text'}" ng-switch="classifierListCtrl.isEditing" sortable="'content'" ng-form="content">
-                                <span>{{result.date}}</span>
+                            </td> 
+                           <td title="'Flag'" filter="{flag: 'text'}" ng-switch="classifierListCtrl.isEditing" sortable="'content'" ng-form="flag">
+                                <span>{{result.flag}}</span>
                                 
                             </td> 
                              <td>

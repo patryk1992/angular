@@ -25,11 +25,8 @@ angular.module("Blue").controller("addDocumentController", ["$http", "Base64", "
     return $scope.collection === item;
 	}
 
-$scope.sendJsonFile = function() {
-	 $http.jsonp("http://localhost:8082/hello?callback=JSON_CALLBACK").then(function(json) {
-            console.log(json); }); }
-/*
-	/*$scope.sendJsonFile = function() {
+
+	$scope.sendJsonFile = function() {
 		var dataJ = JSON.stringify($scope.user);
 		console.log(dataJ);
 		    $http({
@@ -44,20 +41,7 @@ $scope.sendJsonFile = function() {
         });
 
 	}
-	
-   $http.jsonp("http://angularjs.org/greet.php?callback=JSON_CALLBACK&name=Super%20Hero").
-	$scope.sendJsonFile = function() {
-		$http({
-        method: 'GET',
-        url: 'http://localhost:8082/hello',
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token',
-            'Access-Control-Allow-Methods': 'GET, PUT, POST'
-        }
-   	 }).success(function() { consola.log("asdasd"); });
-	}
-	*/	
+		
 
 }]);
     // jQuery
