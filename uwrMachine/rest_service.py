@@ -116,7 +116,7 @@ def train():
     print("classifier dump:")
     #print(s)
     data = classifier_to_send(classifier_name, classifier_params, svg_dta, s, 1)
-    put.send("http://localhost:8080/dataprocessing/rest-api/classifiers",classifier_name, data)
+    put.send("http://localhost:8080/dataprocessing/rest-api/classifiers/",classifier_name, data)
     pred = clf.predict(features_train)
     from sklearn.metrics import accuracy_score
     acc = accuracy_score(labels_train, pred)
