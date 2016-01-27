@@ -118,12 +118,12 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 			method: 'POST',
 			url: '/dataprocessing/rest-api/classifiers',
 			headers: {
-				'Authorization': 'Basic ' + Base64.encode('admin:admin'),
+				'Authorization': 'Basic '+ globals.currentUser.authdata,
 				'Content-Type': 'application/json',
 			},
 			data:
 			{
-				'userId' : 1,
+				'userId' : globals.currentUser.id,
 				'vectorizedDocumentCollectionId' : vectorizedDocumentCollectionId,
 				'date' : Date.now(),
 				'name' : classifier_name,
@@ -140,13 +140,13 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 			method: 'POST',
 			url: '/dataprocessing/rest-api/resultTestClassifiers',
 			headers: {
-				'Authorization': 'Basic ' + Base64.encode('admin:admin'),
+				'Authorization': 'Basic '+ globals.currentUser.authdata,
 				'Content-Type': 'application/json',
 			},
 			data:
 			{
 				'classifierId' : classifier_id,
-				'vectorizedDocumentCollectionId' : vectorizedDocumentCollectionId,
+				'vectoriziedDocumentCollectionId' : vectorizedDocumentCollectionId,
 				'parameter' : JSON.stringify(params),
 				'precision' : 0,
 				'accuracy' : 0,
@@ -159,8 +159,7 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 				$http.jsonp("http://localhost:8082/train?callback=JSON_CALLBACK",
 				{params : 
 					{
-						'result_test_classifiers_id' : json.resultTestClassifiersId,
-						'user_id' : 1,
+						'user_id' : globals.currentUser.id,
 						'classifier_id' : classifier_id,
 						'vectorized_document_collection_id' : vectorizedDocumentCollectionId,
 						'classifier_name' : classifier_name,
@@ -170,6 +169,7 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 						'cross_validation_params' : lcparams,
 						'collection_id' : $routeParams.collection_id,
 						'train_size' : train_size,
+						'result_test_classifiers_id' : json.idResultTestClassifier
 					}
 				}
 				).then(function(json) {

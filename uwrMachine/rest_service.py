@@ -128,10 +128,11 @@ def train():
     precision = precision_score(labels_train, pred)
     recall = recall_score(labels_train, pred)
 
-    print("Test :")
-    print(data["vectorizedDocumentCollectionId"])
+    print("result_test_classifiers_id: " + result_test_classifiers_id )
+    
     data = test_data_to_send(id_result_test_classifier = result_test_classifiers_id, user_id = user_id, classifierId = classifier_id, vectorizedDocumentCollectionId = vectorized_document_collection_id, parameter = " ", precision = precision, accuracy = acc, recall = recall)
-    put.send("http://localhost:8080/dataprocessing/rest-api/result_test_classifier/", result_test_classifiers_id,  data)
+    print(data)
+    put.send("http://localhost:8080/dataprocessing/rest-api/resultTestClassifiers/", result_test_classifiers_id,  data)
 
     return '{0}({1})'.format(callback, {'a':1, 'b':2})
 
@@ -202,7 +203,7 @@ def test_data_to_send(id_result_test_classifier, user_id, classifierId, vectoriz
 	    "idResultTestClassifier" : id_result_test_classifier,
 	    "userId" : user_id,
         "classifierId" : classifierId,
-        "vectorizedDocumentCollectionId" : vectorizedDocumentCollectionId,
+        "vectoriziedDocumentCollectionId" : vectorizedDocumentCollectionId,
         "parameter" : parameter,
         "precision" : precision,
         "accuracy" : accuracy,
