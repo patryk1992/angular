@@ -1,7 +1,8 @@
-angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$routeParams', 'Base64',  function($http, $scope, $routeParams, Base64) {
+angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$routeParams', 'Base64', '$cookieStore',  function($http, $scope, $routeParams, Base64, $cookieStore) {
 	var controller = this;
     var collectionItems;
 	var vectorizedDocumentItems;
+	var globals = $cookieStore.get('globals');
 
     $http({
         method: 'GET',
@@ -111,6 +112,7 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 		var classifier_type = $scope.data.algorithms[$scope.data.repeatSelect].algName;
 		var cross_validation_type = $scope.data.learningCurveAlgorithms[$scope.data.repeatSelectLCurve].algName;
 		var train_size = $scope.train_size;
+		var vectorizedDocumentCollectionId = $scope.vectorizedDocumentCollection.idVectorizedDocumentCollection;
 
 		$http({
 			method: 'POST',
@@ -122,7 +124,7 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 			data:
 			{
 				'userId' : 1,
-				'vectorizedDocumentCollectionId' : $scope.vectorizedDocumentCollection.idVectorizedDocumentCollection,
+				'vectorizedDocumentCollectionId' : vectorizedDocumentCollectionId,
 				'date' : Date.now(),
 				'name' : classifier_name,
 				'parameter' : JSON.stringify(params),
@@ -132,28 +134,48 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 			}
 		}).success(function(json) {
 			console.log(json);
-			$http.jsonp("http://localhost:8082/train?callback=JSON_CALLBACK",
-			{params : 
-				{
-					'classifier_name' : classifier_name,
-					'classifier_type' : classifier_type,
-					'classifier_params' : params,
-					'cross_validation_type' : cross_validation_type,
-					'cross_validation_params' : lcparams,
-					'collection_id' : $routeParams.collection_id,
-					'train_size' : train_size,
-				}
+			var classifier_id = json.idClassifier;
+			
+			$http({
+			method: 'POST',
+			url: '/dataprocessing/rest-api/resultTestClassifiers',
+			headers: {
+				'Authorization': 'Basic ' + Base64.encode('admin:admin'),
+				'Content-Type': 'application/json',
+			},
+			data:
+			{
+				'classifierId' : classifier_id,
+				'vectorizedDocumentCollectionId' : vectorizedDocumentCollectionId,
+				'parameter' : JSON.stringify(params),
+				'precision' : 0,
+				'accuracy' : 0,
+				'recall' : 0
 			}
-			).then(function(json) {
-				console.log(json); });
+			}).success(function(json) {
+				console.log(json);
+				
+				
+				$http.jsonp("http://localhost:8082/train?callback=JSON_CALLBACK",
+				{params : 
+					{
+						'result_test_classifiers_id' : json.resultTestClassifiersId,
+						'user_id' : 1,
+						'classifier_id' : classifier_id,
+						'vectorized_document_collection_id' : vectorizedDocumentCollectionId,
+						'classifier_name' : classifier_name,
+						'classifier_type' : classifier_type,
+						'classifier_params' : params,
+						'cross_validation_type' : cross_validation_type,
+						'cross_validation_params' : lcparams,
+						'collection_id' : $routeParams.collection_id,
+						'train_size' : train_size,
+					}
+				}
+				).then(function(json) {
+					console.log(json); });
+			 });
          });
-		 
-		 
-		 
-
-
-	
-	
 		
 	};
 

@@ -181,7 +181,7 @@ def get_dTree_params(str):
     max_leaf_nodes = str['max_leaf_nodes']
     class_weight = str['class_weight']
     presort = str['presort ']
-    random_state = str['random_state ']
+    random_state = str['random_state']
 
     return criterion, splitter, max_features, max_depth, min_samples_split, min_samples_leaf, min_weight_fraction_leaf, max_leaf_nodes, class_weight, presort, random_state
 
