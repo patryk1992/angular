@@ -14,12 +14,11 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
         controller.collectionResults = data._embedded.documentCollections;
         originalData = angular.copy(controller.collectionResults);
         $scope.collectionItems = controller.collectionResults;
+		$scope.documentCollection = $scope.collectionItems[0];
         });
 		
 	$scope.setCollection = function(item){
         $scope.documentCollection = item;
-        //paramService.addProduct(item.idDocumentCollection);
-
     }
 
     $scope.isSelected = function(item) {
@@ -29,7 +28,7 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 	
 	$http({
         method: 'GET',
-        url: 'http://www.naos-software.com/dataprocessing/rest-api/vectorizedDocumentCollections/search/findAllByDocumentCollectionId?documentCollectionId='+$routeParams.collection_id,
+        url: '/dataprocessing/rest-api/vectorizedDocumentCollections/search/findAllByDocumentCollectionId?documentCollectionId='+$routeParams.collection_id,
         headers: {
             'Content-Type': 'application/json'
         }
@@ -43,7 +42,6 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 
     $scope.setVectorizedDocumentCollection = function(item){
         $scope.vectorizedDocumentCollection = item;
-        //paramService.addProduct(item.idDocumentCollection);
     }
 	
 	$scope.isVectorizedDocumentSelected = function(item) {
