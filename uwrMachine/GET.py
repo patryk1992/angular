@@ -1,4 +1,4 @@
-import urllib3.request
+import urllib
 import json
 import numpy as np
 from sklearn.cross_validation import train_test_split
@@ -10,7 +10,7 @@ def getArrays():
     maxWord = 26014
     Xcnt = 0
 
-    url = "http://naos-software.com/dataprocessing/rest-api/vectorizedDocumentCollections"
+    url = "http://localhost:8080/dataprocessing/rest-api/vectorizedDocumentCollections"
     response = urllib.request.urlopen(url)
     content = response.read()
     data = json.loads(content.decode("utf8"))
@@ -19,7 +19,7 @@ def getArrays():
     totalPages = Page['totalPages']
 
     for p in range(0, totalPages):
-        url = "http://naos-software.com/dataprocessing/rest-api/vectorizedDocumentCollections?page="+str(p)
+        url = "http://localhost:8080/dataprocessing/rest-api/vectorizedDocumentCollections?page="+str(p)
         response = urllib.request.urlopen(url)
         content = response.read()
         data = json.loads(content.decode("utf8"))

@@ -1,4 +1,4 @@
-angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$routeParams',  function($http, $scope, $routeParams) {
+angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$routeParams', 'Base64',  function($http, $scope, $routeParams, Base64) {
 	var controller = this;
     var items;
 
@@ -84,21 +84,50 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 		var classifier_type = $scope.data.algorithms[$scope.data.repeatSelect].algName;
 		var cross_validation_type = $scope.data.learningCurveAlgorithms[$scope.data.repeatSelectLCurve].algName;
 		var train_size = $scope.train_size;
-		
-		$http.jsonp("http://localhost:8082/train?callback=JSON_CALLBACK",
-		{params : 
+
+		$http({
+			method: 'POST',
+			url: '/dataprocessing/rest-api/classifiers',
+			headers: {
+				'Authorization': 'Basic ' + Base64.encode('admin:admin'),
+				'Content-Type': 'application/json',
+			},
+			data:
 			{
-				'classifier_name' : classifier_name,
-				'classifier_type' : classifier_type,
-				'classifier_params' : params,
-				'cross_validation_type' : cross_validation_type,
-				'cross_validation_params' : lcparams,
-				'collection_id' : $routeParams.collection_id,
-				'train_size' : train_size,
+				'userId' : 1,
+				'vectorizedDocumentCollectionId' : $routeParams.collection_id,
+				'date' : Date.now(),
+				'name' : classifier_name,
+				'parameter' : JSON.stringify(params),
+				'learningCurve' : 'todo',
+				'content' : 'todo',
+				'flag' : 0
 			}
-		}
-		).then(function(json) {
-            console.log(json); });
+		}).success(function(json) {
+			console.log(json);
+			$http.jsonp("http://localhost:8082/train?callback=JSON_CALLBACK",
+			{params : 
+				{
+					'classifier_name' : classifier_name,
+					'classifier_type' : classifier_type,
+					'classifier_params' : params,
+					'cross_validation_type' : cross_validation_type,
+					'cross_validation_params' : lcparams,
+					'collection_id' : $routeParams.collection_id,
+					'train_size' : train_size,
+				}
+			}
+			).then(function(json) {
+				console.log(json); });
+         });
+		 
+		 
+		 
+
+
+	
+	
+		
 	};
 
 	$scope.startTest = function()

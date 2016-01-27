@@ -1,13 +1,15 @@
-import urllib3.request
+import urllib
+import urllib3
 import json
 def getArrays(collectonId):
+    print (urllib3.__file__)
     X = []
     Y = []
     maxWord = 26014
     Xcnt = 0
 
-    url = "http://www.naos-software.com/dataprocessing/rest-api/vectorizedDocumentCollections/search/findAllByDocumentCollectionId?documentCollectionId="+str(collectonId)
-    response = urllib3.request.urlopen(url)
+    url = "http://localhost:8080/dataprocessing/rest-api/vectorizedDocumentCollections/search/findAllByDocumentCollectionId?documentCollectionId="+str(collectonId)
+    response = urllib.request.urlopen(url)
     content = response.read()
     data = json.loads(content.decode("utf8"))
 
