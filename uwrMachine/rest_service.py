@@ -203,7 +203,7 @@ def test_data_to_send(id_result_test_classifier, user_id, classifierId, vectoriz
 	    "idResultTestClassifier" : id_result_test_classifier,
 	    "userId" : user_id,
         "classifierId" : classifierId,
-        "vectoriziedDocumentCollectionId" : vectorizedDocumentCollectionId,
+        "vectorizedDocumentCollectionId" : vectorizedDocumentCollectionId,
         "parameter" : parameter,
         "precision" : precision,
         "accuracy" : accuracy,

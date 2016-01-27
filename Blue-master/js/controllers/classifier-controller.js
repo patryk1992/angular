@@ -146,7 +146,7 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 			data:
 			{
 				'classifierId' : classifier_id,
-				'vectoriziedDocumentCollectionId' : vectorizedDocumentCollectionId,
+				'vectorizedDocumentCollectionId' : vectorizedDocumentCollectionId,
 				'parameter' : JSON.stringify(params),
 				'precision' : 0,
 				'accuracy' : 0,
