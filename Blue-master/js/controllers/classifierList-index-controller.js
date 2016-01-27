@@ -1,4 +1,4 @@
-angular.module("Blue").controller("ClassifierListController", ["$http", "Base64", "ngTableParams", "$cookieStore", function($http, Base64, ngTableParams, $cookieStore) {
+angular.module("Blue").controller("ClassifierListController", ["$http", "Base64", "$window", "ngTableParams", "$cookieStore",  "$location", function($http, Base64, $window, ngTableParams, $cookieStore, $location) {
     var controller = this;
     var originalData;
     var globals = $cookieStore.get('globals');
@@ -36,11 +36,13 @@ angular.module("Blue").controller("ClassifierListController", ["$http", "Base64"
 
     function showResults(result) {
         console.log("tutaj daj wyswietlanie res");
-
+          $window.open("data:text/html,"+ encodeURIComponent(result.learningCurve), "_blank", "width=800,height=600");
     }
 
     function test(result) {
-        console.log("tutaj daj testowanie");
+          console.log("przejscie testu");
+        $location.path('/testClassifier/'+result.idClassifier);
+      
     }
 
     function add() {
