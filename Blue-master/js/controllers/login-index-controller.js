@@ -21,7 +21,7 @@ angular.module("Blue").controller("LoginIndexController", ['$scope', '$rootScope
                     'Authorization': 'Basic ' + Base64.encode(controller.username + ':' + controller.password)
                 }
             }).success(function(data) {
-                AuthenticationService.SetCredentials(controller.username, controller.password, data.roleName);
+                AuthenticationService.SetCredentials(controller.username, controller.password, data);
                  $location.path('/classifiers');
             }).error(function(data) {
                 $window.alert(JSON.stringify(data));

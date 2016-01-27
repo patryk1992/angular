@@ -28,14 +28,15 @@ angular.module('Blue')
  
         };
   
-        service.SetCredentials = function (username, password, roleName) {
+        service.SetCredentials = function (username, password, data) {
             var authdata = Base64.encode(username + ':' + password);
   
             $rootScope.globals = {
                 currentUser: {
                     username: username,
                     authdata: authdata,
-                    roleName:roleName
+                    roleName: data.roleName,
+                    id: data.id
                 }
             };
   

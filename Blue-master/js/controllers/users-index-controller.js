@@ -21,6 +21,18 @@ angular.module("Blue").controller("UsersIndexController", ["$http", "Base64", "n
             dataset: controller.users
         });
     });
+    $http({
+        method: 'GET',
+        url: '/dataprocessing/rest-api/roles',
+        headers: {
+            // 'Authorization': 'Basic '+Base64.encode('admin:admin')          
+
+
+        }
+    }).success(function(data) {
+        controller.roles = data._embedded.roles;
+        
+    });
 
     controller.deleteCount = 0;
     controller.deletedUsers = [];
@@ -151,22 +163,22 @@ angular.module("Blue").controller("UsersIndexController", ["$http", "Base64", "n
 
             });
         }
+        // http://localhost:8081/rest-api/changeRole/5/4
         for (key in changedUsers) {
+          for (index in controller.roles) {
+            if(changedUsers[key].roleNames[0]==controller.roles[index].name)
             $http({
-                method: 'PUT',
-                url: '/dataprocessing/rest-api/users/' + changedUsers[key].idUser+ '/roles',
-                data: {
-                  "idRole": 2,
-                  "name": "ROLE_EXPERT"
-                 
-                  },
+                method: 'GET',
+                url: '/dataprocessing/rest-api/changeRole/' + changedUsers[key].idUser+ '/'+controller.roles[index].idRole,
+                
                 headers: {
-                    'Authorization': 'Basic '+ globals.currentUser.authdata,
+                    
                     'Content-Type': 'application/json'
                 }
             }).success(function(data) {
 
             });
+          }
         }
         originalData = angular.copy(controller.tableParams.settings().dataset);
 
