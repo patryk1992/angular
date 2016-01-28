@@ -2,6 +2,8 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 	var controller = this;
     var collectionItems;
 	var vectorizedDocumentItems;
+	var document_id;
+	var questionsItems;
 	var globals = $cookieStore.get('globals');
 
     $http({
@@ -48,6 +50,29 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
     return $scope.vectorizedDocumentCollection === item;
 	}
 	
+	
+	
+
+	$http({
+        method: 'GET',
+        url: '/dataprocessing/rest-api/questions',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).success(function(data) {
+        controller.questionsResult = data._embedded.questions;
+        questionsOriginalData = angular.copy(controller.questionsResult);
+        $scope.questionsItems = controller.questionsResult;
+		$scope.questionsCollection = $scope.questionsItems[0];
+        });
+
+    $scope.setQuestionsCollection = function(item){
+        $scope.questionsCollection = item;
+    }
+	
+	$scope.isQuestionsSelected = function(item) {
+    return $scope.questionsCollection === item;
+	}
 	
 	
 	$scope.data = {
@@ -179,18 +204,41 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 
 	$scope.startTest = function()
 	{
-		
-		$http.jsonp("http://localhost:8082/train?callback=JSON_CALLBACK",
-		{params : 
-			{
-				'collection_id' : collection.idDocumentCollection,
-				'classifier_id' : $routeParams.classifier_id,
+		var idDocumentCollection = 4;
+		$http({
+			method: 'GET',
+			url: '/dataprocessing/rest-api/documentCollections/'+idDocumentCollection+'/documents',        
+			headers: {
+				'Content-Type': 'application/json',
 			}
-		}
-		).then(function(json) {
-            console.log(json); });
+		}).success(function(data) {
+			controller.documentsListResult = data._embedded.documents;
+			document_id = controller.documentsListResult[0];
+			
+			$http({
+				method: 'GET',
+				url: '/dataprocessing/rest-api/classifiers/'+ $routeParams.classifier_id,
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			}).success(function(data) {
+			
+			
+			
+			$http.jsonp("http://localhost:8082/annotations?callback=JSON_CALLBACK",
+			{params : 
+				{
+					'collection_id' : idDocumentCollection,
+					'classifier_dump' : data.content,
+					'document_id' : document_id,
+					'question_id' : $scope.questionsCollection.idQuestion,
+					'range' : $scope.range,
+				}
+			}
+			).then(function(json) {
+				console.log(json); });
+			});
+		});
 	};
-	
-	
-    }]);
+}]);
 		

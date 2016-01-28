@@ -33,7 +33,7 @@
 				  </div>
 			  </div>
 			  <div class="form-group">
-				<div class="dropdown dropdown-scroll">
+				<div id="dropdownCollections" class="dropdown dropdown-scroll">
                     
                         <label class="col-lg-2 control-label"> Vectorized Collection ID: {{vectorizedDocumentCollection.idVectorizedDocumentCollection}}</label>
                         <br>
@@ -60,6 +60,9 @@
                     
                     </div>
 				</div>	
+				
+					
+				
 			</fieldset>
           </form>
         </div>
@@ -215,7 +218,7 @@
           <form name="naive" class="bs-example form-horizontal">
 			<fieldset>
 			  <div class="form-group">
-				<label name="noParams" class="col-lg-2 control-label">No parameters</label>
+				<label name="noParams" ng-model="fields[1]" ng-init="fields[1]=''" class="col-lg-2 control-label">No parameters</label>
 			  </div>
 			</fieldset>
 		  </form>
@@ -283,7 +286,7 @@
 			  <div class="form-group">
 				<label for="inputMaxDepth" class="col-lg-2 control-label">max_depth</label>
 				<div class="col-lg-10">
-				  <input type="text" ng-model="fields[2].max_depth" ng-init="fields[2].max_depth=''" class="form-control" id="inputMaxDepth">
+				  <input type="text" ng-model="fields[2].max_depth" ng-init="fields[2].max_depth='4'" class="form-control" id="inputMaxDepth">
 				  <span class="help-block">(int or None) The maximum depth of the tree. If None, then nodes are expanded until all leaves are pure or until all leaves contain less than min_samples_split samples. Ignored if max_leaf_nodes is not None.</span>
 				</div>
 			  </div>
@@ -482,7 +485,7 @@
 			  <div class="form-group">
 				<label for="inputRandomState" class="col-lg-2 control-label">random_state</label>
 				<div class="col-lg-10">
-				  <input type="text" ng-model="lcfields[2].random_state" ng-init="lcfields[2].random_state='RandomState'" class="form-control" id="inputRandomState">
+				  <input type="text" ng-model="lcfields[2].random_state" ng-init="lcfields[2].random_state=''" class="form-control" id="inputRandomState">
 				  <span class="help-block">(int or &#39;RandomState&#39;) Pseudo-random number generator state used for random sampling.</span>
 				</div>
 			  </div>
