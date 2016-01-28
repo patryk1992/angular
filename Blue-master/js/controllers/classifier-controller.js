@@ -1,10 +1,14 @@
-angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$routeParams', 'Base64', '$cookieStore',  function($http, $scope, $routeParams, Base64, $cookieStore) {
+angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$routeParams', 'Base64', '$cookieStore', "$location",  function($http, $scope, $routeParams, Base64, $cookieStore, $location) {
 	var controller = this;
     var collectionItems;
 	var vectorizedDocumentItems;
 	var document_id;
 	var questionsItems;
 	var globals = $cookieStore.get('globals');
+	var idPobrane = $routeParams;
+	console.log(idPobrane);
+	console.log("abc " +$routeParams.collection_id);
+	console.log("abc" + $routeParams.classifier_id);
 
     $http({
         method: 'GET',
@@ -20,14 +24,16 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
         });
 		
 	$scope.setCollection = function(item){
+		console.log("setColl " + item.idDocumentCollection);
         $scope.documentCollection = item;
     }
 
     $scope.isSelected = function(item) {
+
     return $scope.documentCollection === item;
 	}
 	
-	
+	if($routeParams.collection_id != undefined) {
 	$http({
         method: 'GET',
         url: '/dataprocessing/rest-api/vectorizedDocumentCollections/search/findAllByDocumentCollectionId?documentCollectionId='+$routeParams.collection_id,
@@ -42,7 +48,10 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 		$scope.vectorizedDocumentCollection = $scope.vectorizedDocumentItems[0];
         });
 
+	}
+
     $scope.setVectorizedDocumentCollection = function(item){
+    		console.log("setColl " + item.idDocumentCollection);
         $scope.vectorizedDocumentCollection = item;
     }
 	
@@ -197,14 +206,16 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 				}
 				).then(function(json) {
 					console.log(json); });
+
 			 });
          });
-		
+		$location.path('/classList');
 	};
 
 	$scope.startTest = function()
 	{
-		var idDocumentCollection = 4;
+		var idDocumentCollection = $scope.documentCollection.idDocumentCollection;
+		console.log("tutaj " + idDocumentCollection);
 		$http({
 			method: 'GET',
 			url: '/dataprocessing/rest-api/documentCollections/'+idDocumentCollection+'/documents',        
@@ -239,6 +250,8 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 				console.log(json); });
 			});
 		});
+
+		$location.path('/classList');
 	};
 }]);
 		
