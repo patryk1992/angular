@@ -1,12 +1,13 @@
-angular.module("Blue").controller("ClassifierListController", ["$http", "Base64", "$window", "ngTableParams", "$cookieStore",  "$location", function($http, Base64, $window, ngTableParams, $cookieStore, $location) {
+angular.module("Blue").controller("ClassifierListController", ["$http", "Base64", "$window", "ngTableParams", "$cookieStore", "$location", function($http, Base64, $window, ngTableParams, $cookieStore, $location) {
     var controller = this;
+    controller.results = [];
     var originalData;
     var globals = $cookieStore.get('globals');
     // $http.defaults.headers.common['Authorization'] = 'Basic YWRtaW46YWRtaW4=';
     // $http.defaults.withCredentials = true;
     $http({
         method: 'GET',
-        url: '/dataprocessing/rest-api/classifiers',        
+        url: '/dataprocessing/rest-api/classifiers',
         headers: {
             'Content-Type': 'application/json',
             // 'params': {
@@ -15,13 +16,18 @@ angular.module("Blue").controller("ClassifierListController", ["$http", "Base64"
             // }
         }
     }).success(function(data) {
-        controller.results = data._embedded.classifiers;
-        originalData = angular.copy(controller.results);
-        controller.tableParams = new ngTableParams({
-            count: 10
-        }, {
-            dataset: controller.results
-        });
+        var next = data._links.next;
+        controller.results = controller.results.concat(data._embedded.classifiers);
+        if (next != null) {
+            getFullData(data);
+        } else {
+            originalData = angular.copy(controller.results);
+            controller.tableParams = new ngTableParams({
+                count: 10
+            }, {
+                dataset: controller.results
+            });
+        }
     });
 
     controller.deleteCount = 0;
@@ -33,16 +39,44 @@ angular.module("Blue").controller("ClassifierListController", ["$http", "Base64"
     controller.saveChanges = saveChanges;
     controller.showResults = showResults;
     controller.test = test;
+    controller.getFullData = getFullData;
+
+    function getFullData(data) {
+
+        $http({
+            method: 'GET',
+            url: data._links.next.href,
+            headers: {
+                'Content-Type': 'application/json',
+                // 'params': {
+                //     'wt': 'json',
+                //     'q': '*:*'
+                // }
+            }
+        }).success(function(data) {
+            controller.results = controller.results.concat(data._embedded.classifiers);
+            if (data._links.next != null) {
+                getFullData(data);
+            } else {
+                originalData = angular.copy(controller.results);
+                controller.tableParams = new ngTableParams({
+                    count: 10
+                }, {
+                    dataset: controller.results
+                });
+            }
+        });
+    }
 
     function showResults(result) {
         console.log("tutaj daj wyswietlanie res");
-          $window.open("data:text/html,"+ encodeURIComponent(result.learningCurve), "_blank", "width=800,height=600");
+        $window.open("data:text/html," + encodeURIComponent(result.learningCurve), "_blank", "width=800,height=600");
     }
 
     function test(result) {
-          console.log("przejscie testu");
-        $location.path('/testClassifier/'+result.idClassifier);
-      
+        console.log("przejscie testu");
+        $location.path('/testClassifier/' + result.idClassifier);
+
     }
 
     function add() {
@@ -117,7 +151,7 @@ angular.module("Blue").controller("ClassifierListController", ["$http", "Base64"
         var changedUsers = [];
         var tableDataset = controller.tableParams.settings().dataset;
         console.log("przed petlami " + controller.deletedresults);
-        
+
         originalData = angular.copy(controller.tableParams.settings().dataset);
         console.log("lista");
         // usuniecie użytkowników
@@ -127,7 +161,7 @@ angular.module("Blue").controller("ClassifierListController", ["$http", "Base64"
                 method: 'DELETE',
                 url: '/dataprocessing/rest-api/classifiers/' + controller.deletedresults[key].idClassifier,
                 headers: {
-                    'Authorization': 'Basic '+ globals.currentUser.authdata,
+                    'Authorization': 'Basic ' + globals.currentUser.authdata,
                     'Content-Type': 'application/json'
                 }
             }).success(function(data) {

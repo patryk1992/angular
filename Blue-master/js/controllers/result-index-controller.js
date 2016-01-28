@@ -1,5 +1,6 @@
 angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "ngTableParams", "$cookieStore", "serviceClassifier", "serviceDocumentCollections", "serviceVectorizedDocumentCollections", function($http, Base64, ngTableParams, $cookieStore, serviceClassifier, serviceDocumentCollections, serviceVectorizedDocumentCollections) {
     var controller = this;
+    controller.results = [];
     var originalData;
     var classifiersData;
     var globals = $cookieStore.get('globals');
@@ -16,8 +17,32 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
             // }
         }
     }).success(function(data) {
-        if (data._embedded != null) {
-            controller.results = data._embedded.resultTestClassifiers; /////////////tu popraw przypisz poprawna tabele
+        var next = data._links.next;
+        controller.results = controller.results.concat(data._embedded.resultTestClassifiers);
+        if (next != null) {
+            getFullData(data);
+        } else {
+            createTable(data);
+        }
+       
+    });
+
+
+
+
+    controller.deleteCount = 0;
+    controller.deletedresults = [];
+    controller.add = add;
+    controller.cancelChanges = cancelChanges;
+    controller.del = del;
+    controller.hasChanges = hasChanges;
+    controller.saveChanges = saveChanges;
+    controller.getFullData = getFullData;
+    controller.createTable = createTable;
+
+    function createTable(data) {
+         if (data._embedded != null) {
+            
             originalData = angular.copy(controller.results);
 
             controller.classifiersData = [];
@@ -39,40 +64,7 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
                 // controller.results[key].documentCollectionName = getDocumentCollectionName(controller.results[key].vectoriziedDocumentCollectionId);
             }
 
-            $http({
-                method: 'GET',
-                url: '/dataprocessing/rest-api/classifiers',
-                headers: {
-                    // 'Authorization': 'Basic '+Base64.encode('admin:admin')   
-                }
-            }).success(function(data) {
-                controller.classifiersData = data._embedded.classifiers;
-                controller.vectorizedDocumentCollections = [];
-                $http({
-                    method: 'GET',
-                    url: '/dataprocessing/rest-api/vectorizedDocumentCollections',
-                    headers: {
-                        // 'Authorization': 'Basic '+Base64.encode('admin:admin')   
-                    }
-                }).success(function(data) {
-                    controller.vectorizedDocumentCollections = data._embedded.vectorizedDocumentCollections;
-                    controller.documentCollections = [];
-                    $http({
-                        method: 'GET',
-                        url: '/dataprocessing/rest-api/documentCollections',
-                        headers: {
-                            // 'Authorization': 'Basic '+Base64.encode('admin:admin')   
-                        }
-                    }).success(function(data) {
-                        controller.documentCollections = data._embedded.documentCollections;
-
-
-                    });
-
-                });
-
-
-            });
+          
 
 
         }
@@ -81,44 +73,32 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
         }, {
             dataset: controller.results
         });
-    });
-
-
-
-
-    controller.deleteCount = 0;
-    controller.deletedresults = [];
-    controller.add = add;
-    controller.cancelChanges = cancelChanges;
-    controller.del = del;
-    controller.hasChanges = hasChanges;
-    controller.saveChanges = saveChanges;
-    controller.getClassifierName = getClassifierName;
-    controller.getDocumentCollectionName = getDocumentCollectionName;
-
-
-    function getClassifierName(id) {
-
-        // for (key in controller.classifiersData) {
-        //     if (controller.classifiersData[key].userId == id) {
-        //         return controller.classifiersData[key].name;
-        //     }
-        // }
-
+        
     }
 
-    function getDocumentCollectionName(id) {
 
-        for (key in controller.vectorizedDocumentCollections) {
-            if (controller.vectorizedDocumentCollections[key].idVectorizedDocumentCollection == id) {
-                for (index in controller.documentCollections) {
-                    if (controller.documentCollections[index].idDocumentCollection == controller.vectorizedDocumentCollections[key].documentCollectionId) {
-                        return controller.documentCollections[index].name;
-                    }
-                }
+    function getFullData(data) {
+
+        $http({
+            method: 'GET',
+            url: data._links.next.href,
+            headers: {
+                'Content-Type': 'application/json',
+                // 'params': {
+                //     'wt': 'json',
+                //     'q': '*:*'
+                // }
             }
-        }
+        }).success(function(data) {
+            controller.results = controller.results.concat(data._embedded.resultTestClassifiers);
+            if (data._links.next != null) {
+                getFullData(data);
+            } else {
+                createTable(data);
+            }
+        });
     }
+
 
     function add() {
         controller.isEditing = true;

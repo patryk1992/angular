@@ -1,5 +1,6 @@
 angular.module("Blue").controller("DocumentsIndexController", ["$http", "Base64", "ngTableParams", "$cookieStore", "$location", function($http, Base64, ngTableParams, $cookieStore, $location) {
     var controller = this;
+     controller.results = [];
     var originalData;
     var globals = $cookieStore.get('globals');
     var docsLists;
@@ -16,13 +17,27 @@ angular.module("Blue").controller("DocumentsIndexController", ["$http", "Base64"
             // }
         }
     }).success(function(data) {
-        controller.results = data._embedded.documentCollections;
-        originalData = angular.copy(controller.results);
-        controller.tableParams = new ngTableParams({
-            count: 10
-        }, {
-            dataset: controller.results
-        });
+        // controller.results = data._embedded.documentCollections;
+        // originalData = angular.copy(controller.results);
+        // controller.tableParams = new ngTableParams({
+        //     count: 10
+        // }, {
+        //     dataset: controller.results
+        // });
+
+
+        var next = data._links.next;
+        controller.results = controller.results.concat(data._embedded.documentCollections);
+        if (next != null) {
+            getFullData(data);
+        } else {
+            originalData = angular.copy(controller.results);
+            controller.tableParams = new ngTableParams({
+                count: 10
+            }, {
+                dataset: controller.results
+            });
+        }
     });
 
     controller.deleteCount = 0;
@@ -34,6 +49,35 @@ angular.module("Blue").controller("DocumentsIndexController", ["$http", "Base64"
     controller.saveChanges = saveChanges;
     controller.docsList = docsList;
     controller.goToClass = goToClass;
+
+     controller.getFullData = getFullData;
+
+    function getFullData(data) {
+
+        $http({
+            method: 'GET',
+            url: data._links.next.href,
+            headers: {
+                'Content-Type': 'application/json',
+                // 'params': {
+                //     'wt': 'json',
+                //     'q': '*:*'
+                // }
+            }
+        }).success(function(data) {
+            controller.results = controller.results.concat(data._embedded.documentCollections);
+            if (data._links.next != null) {
+                getFullData(data);
+            } else {
+                originalData = angular.copy(controller.results);
+                controller.tableParams = new ngTableParams({
+                    count: 10
+                }, {
+                    dataset: controller.results
+                });
+            }
+        });
+    }
 
     function add() {
         controller.isEditing = true;
