@@ -1,4 +1,4 @@
-angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "ngTableParams", "$cookieStore", function($http, Base64, ngTableParams, $cookieStore) {
+angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "ngTableParams", "$cookieStore", "serviceClassifier", "serviceDocumentCollections", "serviceVectorizedDocumentCollections", function($http, Base64, ngTableParams, $cookieStore, serviceClassifier, serviceDocumentCollections, serviceVectorizedDocumentCollections) {
     var controller = this;
     var originalData;
     var classifiersData;
@@ -21,6 +21,24 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
             originalData = angular.copy(controller.results);
 
             controller.classifiersData = [];
+            for (key in controller.results) {
+                var dataPromiseClassifier = serviceClassifier.getData(controller.results[key].classifierId, key);
+                dataPromiseClassifier.then(function(result) { // this is only run after $http completes
+                    controller.results[result.idResult].classifierName = result.name;
+                    // console.log("data.name"+result);
+                });
+                var dataPromiseVectorizedDocumentCollections = serviceVectorizedDocumentCollections.getData(controller.results[key].vectorizedDocumentCollectionId, key);
+                dataPromiseVectorizedDocumentCollections.then(function(result) {
+                    var dataPromiseDocumentCollections= serviceDocumentCollections.getData(result.documentCollectionId, result.idResult);
+                    dataPromiseDocumentCollections.then(function(result) { // this is only run after $http completes
+                        controller.results[result.idResult].documentCollectionName = result.name;
+                        // console.log("data.name"+result);
+                    });
+                    
+                });
+                // controller.results[key].documentCollectionName = getDocumentCollectionName(controller.results[key].vectoriziedDocumentCollectionId);
+            }
+
             $http({
                 method: 'GET',
                 url: '/dataprocessing/rest-api/classifiers',
@@ -48,15 +66,7 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
                     }).success(function(data) {
                         controller.documentCollections = data._embedded.documentCollections;
 
-                        // for (key in controller.results) {
-                        //    controller.results[key].classifierName=getClassifierName( controller.results[key].classifierId);
-                        //    controller.results[key].documentCollectionName=getDocumentCollectionName( controller.results[key].vectoriziedDocumentCollectionId);
-                        // }
-                        controller.tableParams = new ngTableParams({
-                            count: 10
-                        }, {
-                            dataset: controller.results
-                        });
+
                     });
 
                 });
@@ -66,6 +76,11 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
 
 
         }
+        controller.tableParams = new ngTableParams({
+            count: 10
+        }, {
+            dataset: controller.results
+        });
     });
 
 
@@ -84,11 +99,12 @@ angular.module("Blue").controller("ResultIndexController", ["$http", "Base64", "
 
     function getClassifierName(id) {
 
-        for (key in controller.classifiersData) {
-            if (controller.classifiersData[key].userId == id) {
-                return controller.classifiersData[key].name;
-            }
-        }
+        // for (key in controller.classifiersData) {
+        //     if (controller.classifiersData[key].userId == id) {
+        //         return controller.classifiersData[key].name;
+        //     }
+        // }
+
     }
 
     function getDocumentCollectionName(id) {

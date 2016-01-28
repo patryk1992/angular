@@ -138,4 +138,34 @@ angular.module('Blue')
     };
   
     /* jshint ignore:end */
+}).factory('serviceClassifier', function($http) {
+
+    var getData = function(id,idResult) {
+
+        return $http({method:"GET", url:"/dataprocessing/rest-api/classifiers/"+id}).then(function(result){
+            result.data.idResult=idResult;
+           return result.data;
+        });
+    };
+    return { getData: getData };
+}).factory('serviceVectorizedDocumentCollections', function($http) {
+
+    var getData = function(id,idResult) {
+
+        return $http({method:"GET", url:"/dataprocessing/rest-api/vectorizedDocumentCollections/"+id}).then(function(result){
+            result.data.idResult=idResult;
+           return result.data;
+        });
+    };
+    return { getData: getData };
+}).factory('serviceDocumentCollections', function($http) {
+
+    var getData = function(id,idResult) {
+
+        return $http({method:"GET", url:"/dataprocessing/rest-api/documentCollections/"+id}).then(function(result){
+            result.data.idResult=idResult;
+           return result.data;
+        });
+    };
+    return { getData: getData };
 });
