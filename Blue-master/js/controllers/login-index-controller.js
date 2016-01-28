@@ -22,7 +22,7 @@ angular.module("Blue").controller("LoginIndexController", ['$scope', '$rootScope
                 }
             }).success(function(data) {
                 AuthenticationService.SetCredentials(controller.username, controller.password, data);
-                 $location.path('/classifiers');
+                 $location.path('/classList');
             }).error(function(data) {
                 $window.alert(JSON.stringify(data));
             });

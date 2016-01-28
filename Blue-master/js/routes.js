@@ -1,7 +1,7 @@
              
 angular.module("Blue").config(function($routeProvider){
 $routeProvider.when('/',{
-        templateUrl: 'templates/pages/users/index.html',
+        templateUrl: 'templates/pages/classifiers/classList.html',
         })
 		.when('/register',{
         templateUrl: 'templates/pages/register/register.html',
