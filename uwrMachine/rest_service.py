@@ -155,6 +155,34 @@ class EnableCors(object):
 
 
 
+@route('/annotations', method = 'GET')
+def annotations():
+    callback = request.GET.get('callback')
+    documentId = request.GET.get('document_id')
+    #classifier_name = request.GET.get('classifier_name')
+    classifier_dump = request.GET.get('classifier')
+    questionId = request.GET.get('question_id')
+    collection_id = request.GET.get('collection_id')
+    range = request.GET.get('range')
+    meh = StringIO(classifier_dump)
+    buff = meh.getvalue()
+    clf = pickle.loads(buff)
+    features_train, labels_train = wtf.getArrays(collection_id)
+    print("params :")
+    #print("classifier_name" + classifier_name)
+    print("classifier_dump" + classifier_dump)
+    print("question_id" + question_id)
+    print("collection_id" + collection_id)
+    print("range" + range)
+    print("document_id" + document_id)
+    preditions = clf.predict(features_train)
+ 
+    data = preds_to_send(questionId,documentId,preditions[0],range)
+ 
+    put.send("http://localhost:8080/dataprocessing/rest-api/annotations", data)
+ 
+    return '{0}({1})'.format(callback, {'a':1, 'b':2})
+	
 @route('/test', method = 'POST')
 def test():
     callback = request.GET.get('callback')

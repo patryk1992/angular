@@ -97,7 +97,10 @@ def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None,
 
 
 def configure_classifier(clf_type, params):
-    data = json.loads(params)
+    if not(params):
+        params = None
+    else:
+        data = json.loads(params)
     if clf_type =='svm':
         kernel = data['kernel']
         c = data['C']
@@ -114,7 +117,7 @@ def configure_classifier(clf_type, params):
         random_state = data['random_state']
         if not(random_state) :
             random_state = None
-        clf = svm.SVC(kernel= kernel, C = float(c),degree = int(degree),gamma= gamma,coef0= float(coef0),probability = probability,shrinking= shrinking, tol= float(tol),cache_size= float(cache_size),class_weight = class_weight,verbose = verbose,max_iter= int(max_iter),random_state = random_state)
+        clf = svm.SVC(kernel= kernel, C = float(c),degree = int(round(float(degree))),gamma= gamma,coef0= float(coef0),probability = probability,shrinking= shrinking, tol= float(tol),cache_size= float(cache_size),class_weight = class_weight,verbose = verbose,max_iter= int(round(float(max_iter))),random_state = random_state)
     if clf_type =='dTree':
         criterion = data['criterion']
         splitter = data['splitter']
@@ -125,11 +128,19 @@ def configure_classifier(clf_type, params):
         min_weight_fraction_leaf =data['min_weight_fraction_leaf']
         max_leaf_nodes = data['max_leaf_nodes']
         class_weight = data['class_weight']
-        presort = data['presort ']
-        random_state = data['random_state ']
+        presort = data['presort']
+        random_state = data['random_state']
         if not(random_state) :
             random_state = None
-        clf = tree.DecisionTreeClassifier(criterion= criterion, splitter = splitter,max_features = int(max_features),max_depth= int(max_depth),min_samples_split= int(min_samples_split),min_samples_leaf = int(min_samples_leaf),min_weight_fraction_leaf= float(min_weight_fraction_leaf), max_leaf_nodes= float(max_leaf_nodes),class_weight= class_weight,presort = presort,random_state = random_state)
+        if not(max_features) :
+            max_features = None
+        if not(max_depth) :
+            max_features = None
+        if not(max_leaf_nodes) :
+            max_leaf_nodes = None
+        if not(class_weight) :
+            class_weight = None
+        clf = tree.DecisionTreeClassifier(criterion= criterion, splitter = splitter,max_features = max_features,max_depth= int(max_depth),min_samples_split= int((min_samples_split)),min_samples_leaf = int(min_samples_leaf),min_weight_fraction_leaf= float(min_weight_fraction_leaf), max_leaf_nodes= max_leaf_nodes,class_weight= class_weight,presort = presort,random_state = random_state)
     if clf_type =='naive':
         clf = naive_bayes.GaussianNB()
     return clf
@@ -148,7 +159,7 @@ def configure_cross_validation(cv_type, params, n ):
         random_state  = data['random_state']
         if not(random_state) :
             random_state = None
-        cv = cross_validation.ShuffleSplit(n = n ,n_iter = int(n_iter),test_size=int(test_size),random_state=random_state)
+        cv = cross_validation.ShuffleSplit(n = n ,n_iter = (int(n_iter)),test_size=float(test_size),random_state=random_state)
     return cv
 
 def get_svm_params(str):
@@ -180,7 +191,7 @@ def get_dTree_params(str):
     min_weight_fraction_leaf = str['min_weight_fraction_leaf']
     max_leaf_nodes = str['max_leaf_nodes']
     class_weight = str['class_weight']
-    presort = str['presort ']
+    presort = str['presort']
     random_state = str['random_state']
 
     return criterion, splitter, max_features, max_depth, min_samples_split, min_samples_leaf, min_weight_fraction_leaf, max_leaf_nodes, class_weight, presort, random_state

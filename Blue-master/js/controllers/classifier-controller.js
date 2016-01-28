@@ -1,8 +1,14 @@
-angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$routeParams', 'Base64', '$cookieStore',  function($http, $scope, $routeParams, Base64, $cookieStore) {
+angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$routeParams', 'Base64', '$cookieStore', "$location",  function($http, $scope, $routeParams, Base64, $cookieStore, $location) {
 	var controller = this;
     var collectionItems;
 	var vectorizedDocumentItems;
+	var document_id;
+	var questionsItems;
 	var globals = $cookieStore.get('globals');
+	var idPobrane = $routeParams;
+	console.log(idPobrane);
+	console.log("abc " +$routeParams.collection_id);
+	console.log("abc" + $routeParams.classifier_id);
 
     $http({
         method: 'GET',
@@ -18,14 +24,16 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
         });
 		
 	$scope.setCollection = function(item){
+		console.log("setColl " + item.idDocumentCollection);
         $scope.documentCollection = item;
     }
 
     $scope.isSelected = function(item) {
+
     return $scope.documentCollection === item;
 	}
 	
-	
+	if($routeParams.collection_id != undefined) {
 	$http({
         method: 'GET',
         url: '/dataprocessing/rest-api/vectorizedDocumentCollections/search/findAllByDocumentCollectionId?documentCollectionId='+$routeParams.collection_id,
@@ -40,7 +48,10 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 		$scope.vectorizedDocumentCollection = $scope.vectorizedDocumentItems[0];
         });
 
+	}
+
     $scope.setVectorizedDocumentCollection = function(item){
+    		console.log("setColl " + item.idDocumentCollection);
         $scope.vectorizedDocumentCollection = item;
     }
 	
@@ -48,6 +59,29 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
     return $scope.vectorizedDocumentCollection === item;
 	}
 	
+	
+	
+
+	$http({
+        method: 'GET',
+        url: '/dataprocessing/rest-api/questions',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).success(function(data) {
+        controller.questionsResult = data._embedded.questions;
+        questionsOriginalData = angular.copy(controller.questionsResult);
+        $scope.questionsItems = controller.questionsResult;
+		$scope.questionsCollection = $scope.questionsItems[0];
+        });
+
+    $scope.setQuestionsCollection = function(item){
+        $scope.questionsCollection = item;
+    }
+	
+	$scope.isQuestionsSelected = function(item) {
+    return $scope.questionsCollection === item;
+	}
 	
 	
 	$scope.data = {
@@ -172,25 +206,52 @@ angular.module("Blue").controller("ClassifierController",['$http', '$scope', '$r
 				}
 				).then(function(json) {
 					console.log(json); });
+
 			 });
          });
-		
+		$location.path('/classList');
 	};
 
 	$scope.startTest = function()
 	{
-		
-		$http.jsonp("http://localhost:8082/train?callback=JSON_CALLBACK",
-		{params : 
-			{
-				'collection_id' : collection.idDocumentCollection,
-				'classifier_id' : $routeParams.classifier_id,
+		var idDocumentCollection = $scope.documentCollection.idDocumentCollection;
+		console.log("tutaj " + idDocumentCollection);
+		$http({
+			method: 'GET',
+			url: '/dataprocessing/rest-api/documentCollections/'+idDocumentCollection+'/documents',        
+			headers: {
+				'Content-Type': 'application/json',
 			}
-		}
-		).then(function(json) {
-            console.log(json); });
+		}).success(function(data) {
+			controller.documentsListResult = data._embedded.documents;
+			document_id = controller.documentsListResult[0];
+			
+			$http({
+				method: 'GET',
+				url: '/dataprocessing/rest-api/classifiers/'+ $routeParams.classifier_id,
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			}).success(function(data) {
+			
+			
+			
+			$http.jsonp("http://localhost:8082/annotations?callback=JSON_CALLBACK",
+			{params : 
+				{
+					'collection_id' : idDocumentCollection,
+					'classifier_dump' : data.content,
+					'document_id' : document_id,
+					'question_id' : $scope.questionsCollection.idQuestion,
+					'range' : $scope.range,
+				}
+			}
+			).then(function(json) {
+				console.log(json); });
+			});
+		});
+
+		$location.path('/classList');
 	};
-	
-	
-    }]);
+}]);
 		
